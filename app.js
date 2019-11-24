@@ -2,6 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const song = require('./routes/song.route'); // Imports routes for the products
+const account = require('./routes/account.route');
+const review = require('./routes/review.route');
 const app = express();
 
 // Set up mongoose connection
@@ -25,6 +27,8 @@ console.log('connected to the database(mongoose)');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/api/songs', song);
+app.use('/api/account',account);
+app.use('/api/review',review);
 
 let port = 1234;app.listen(port, () => {
     console.log('Server is running on port: ' + port);
