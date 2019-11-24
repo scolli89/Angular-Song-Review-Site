@@ -7,11 +7,11 @@ const account_controller = require('../controllers/account.controller');
 
 //open
 router.get('/test', account_controller.test);
-router.post('/api/open/createaccount',account_controller.create_account);
+router.post('/open/createaccount',account_controller.create_account);
 //secure
 
 //admin
-router.post('/api/admin/deactivate/:id',account_controller.deactivate);
+router.post('/admin/deactivate/:id',account_controller.deactivate);
 
 
 

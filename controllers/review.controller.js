@@ -18,7 +18,7 @@ exports.createReview= function (req,res){
         songId: req.body.songId,
         submittedBy: req.body.submittedBy,
         submittedOn: req.body.submittedOn,
-        review: req.boy.review,
+        comment: req.body.comment,
         rating: req.body.rating
     });
     review.save(function (err){

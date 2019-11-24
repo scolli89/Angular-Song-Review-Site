@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 let ReviewSchema = new Schema({
     songId: {type: String, required: true},
-    submittedBy:{type:String,required:true},
-    submittedOn:{type:Date,required:true, default:Date.now},
-    review:{type:String,required:true,max: 250},
-    rating:{type:Number,required: true,default:3,min:1,max:5}
+    submittedBy: {type:String,required:true},
+    submittedOn: {type:Date,required: true, default: Date.now},
+    comment: {type:String,required:true,max: 100},
+    rating: {type:Number,required: true,min:1,max:5}
 });
 
 // Export the model

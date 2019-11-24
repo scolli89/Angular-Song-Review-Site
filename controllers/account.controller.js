@@ -1,4 +1,4 @@
-const Song = require('../models/song.model');
+
 const Account = require('../models/account.model');
 
 //Simple version, without validation or sanitation
@@ -21,7 +21,7 @@ exports.create_account = function (req,res){
         if(err) {
             return next(err);
         }
-        res.send('Account deactivated successsfully.')
+        res.send('Account created successsfully.')
     })
 };
 

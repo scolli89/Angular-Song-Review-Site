@@ -16,6 +16,7 @@ exports.song_create = function (req, res) {
             album: req.body.album,
             year: req.body.year,
            // comment: req.body.comment,
+            genre: req.body.genre,
             submittedBy: req.body.submittedBy,
             submittedOn: req.body.submittedOn,
             numRatings: req.body.numRatings,
@@ -63,18 +64,20 @@ exports.copyright = function (req, res){ //router.get('/api/admin/copyright'
 exports.songCreate = function (req,res){
     let song = new Song(
         {
-        title: req.body.tilte,
-        artist: req.body.artist,
-        album: req.body.album,
-        year: req.body.year,
-        submittedBy: req.body.submittedBy,
-        submittedOn: req.obdy.submittedOn,
-        numRatings: req.body.numRatings,
-        avgRating: req.body.avgRating
+            title: req.body.title,
+            artist: req.body.artist,
+            album: req.body.album,
+            year: req.body.year,
+           // comment: req.body.comment,
+           genre: req.body.genre,
+            submittedBy: req.body.submittedBy,
+            submittedOn: req.body.submittedOn,
+            numRatings: req.body.numRatings,
+            avgRating: req.body.avgRating
         }   
     );
 
-    song.save(function(err){
+    song.save(function (err) {
         if(err) {
             return next(err);
         }
@@ -90,10 +93,18 @@ exports.songUpdate = function (req, res) {
 };
 
 exports.getSongs = function(req,res){
-    Song.findById(req.params.id, function (err, song) {
-        if (err) return next(err);
-        res.send(song);
-    })
+    Song.find({},function(err,song) {
+        var songMap = {};
+
+        song.forEach(function(song){
+            songMap[song._id] = song;
+        });
+        res.send(songMap);
+    });
+    // Song.findById(req.params.id, function (err, song) {
+    //     if (err) return next(err);
+    //     res.send(song);
+    // })
 };
 
 exports.searchSongs = function(req,res){

@@ -5,12 +5,12 @@ const router = express.Router();
 
 const review_controller = require('../controllers/review.controller');
 //open
-router.get('/api/open/reviews/:id',review_controller.getReview);
+router.get('/open/reviews/:id',review_controller.getReview);
 //secure
 // this was a .put
-router.post('/api/secure/addreview/:id',review_controller.createReview);
+router.post('/secure/addreview/',review_controller.createReview);//:id',review_controller.createReview);
 //admin
-
+router.get('/test',review_controller.test);
 
 
 module.exports = router;
