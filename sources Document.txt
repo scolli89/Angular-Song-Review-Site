@@ -1,0 +1,6 @@
+
+Source: https://coursetro.com/posts/code/174/Angular-8-Tutorial-&-Crash-Course
+Use: I followed this tutorial to get started with the angular front end. As such some components such as the scss and button layouts will be similar to the tutorial. 
+
+Source: https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb
+Use: i followed this tutorial in setting up the back end and access to mongodb. The strucutre is the same, however, i expanded on the existing code to incorporate the needs for multiple routes for lab5. 
