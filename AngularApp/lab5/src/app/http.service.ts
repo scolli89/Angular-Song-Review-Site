@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
+
+
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +16,8 @@ export class HttpService {
   baseUrl: string = 'http://localhost:8080/api';
   //secure
   openUrl: string = '/songs/open/song/';
+
+  reviewUrl: string = '/review/open/reviews/'
 
   getbeer() {
     return this.http.get('https://api.openbrewerydb.org/breweries');
@@ -28,8 +34,9 @@ export class HttpService {
 
   getAllReviews(){
     console.log('in get all reviews');
-    return this.http.get(this.baseUrl)
+    return this.http.get(this.baseUrl+this.reviewUrl);
   }
   
 
 }
+

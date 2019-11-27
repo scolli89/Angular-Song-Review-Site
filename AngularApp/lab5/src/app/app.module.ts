@@ -8,13 +8,15 @@ import { ListComponent } from './list/list.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TopSongsComponent } from './top-songs/top-songs.component';
+import { SearchsongComponent } from './searchsong/searchsong.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ListComponent,
-    TopSongsComponent
+    TopSongsComponent,
+    SearchsongComponent
   ],
   imports: [
     BrowserModule,

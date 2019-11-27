@@ -5,7 +5,7 @@ exports.test = function (req, res) {
     res.send('Greetings from the Review Test controller!');
 };
 
-exports.getReview = function(req, res){
+exports.getReviewsOfSong = function(req, res){ // gets all the reviews of a song
     Review.find({},function(err,review){
         var reviewMap = [];
 
@@ -34,6 +34,15 @@ exports.getReview = function(req, res){
     // })
 };
 
+exports.getAllReviews = function (req,res){
+    Review.find({},function(err,review){
+        var reviewMap = [];
+        review.forEach(function(review){
+            reviewMap.push(review);
+        })
+        res.send(reviewMap);
+    });
+}
 
 exports.getSongs = function(req,res){
     

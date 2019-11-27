@@ -15,9 +15,9 @@
           <p>Submitted By: {{ song.submittedBy}} </p>
           <p>Submitted On: {{ song.submittedOn}} </p>
           <p># of Ratings: {{ song.numRatings}} </p>
-          <ul *ngIf="review">
+          <ul *ngIf="reviews">
             <li>
-              <p>Recent review: {{ review.comment }}</p>
+              <p>Recent review: {{ reviews.comment }}</p>
             </li>
           </ul>
 
