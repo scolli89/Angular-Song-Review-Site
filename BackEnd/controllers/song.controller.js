@@ -132,8 +132,40 @@ exports.getSongs = function(req,res){
 };
 
 exports.searchSongs = function(req,res){
-    Songs.findById(req.params.id, function(err,song){
-        if (err) return next(err);
-        res.send(song);
+    Song.find({},function(err,song){
+        var songMap = []; // all the songs. 
+        song.forEach(function(song){ 
+            //songMap[song._id] = song;
+            songMap.push(song);
+           // console.log(songMap[song._id]);
+        });
+        // we now have every song. 
+        //get the search parameters
+        srTtl = req.body.title;
+        srArt = req.body.artist;
+        srAlb = req.body.album;
+        srYr = req.body.year;
+        srGnr = req.body.genre;
+        // this is the 
+        var x = [];
+        
+        // check if search parameters are good. 
+        if((srTtl != "")||(srArt != "")||(srAlb != "")||(srYr != "")||(srGnr != 999)){ 
+            // if any of the search parameters are not equal to the defualt values
+            for(var i = 0; i< songMap.length;i++){
+                if(songMap[i].title == srTtl|| songMap[i].artist ==srArt || songMap[i].album == srAlb||
+                    songMap[i].year == Number(srYr)||songMap[i].genre == srGnr){
+                        // if any of the parameters are match, add song to return array
+                        x.push(songMap[i]);
+                    }
+            }
+
+
+        }
+
+
+
+        res.send(x);
+
     })
 };
