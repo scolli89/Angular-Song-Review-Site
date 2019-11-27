@@ -20,6 +20,7 @@ export class ListComponent implements OnInit {
     this._http.getbeer().subscribe(data => {
       this.brews = data;
       console.log(this.brews);
+      
     })
 
 

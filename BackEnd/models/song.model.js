@@ -10,7 +10,8 @@ let SongSchema = new Schema({
     submittedBy: {type:String,required:true},
     submittedOn: {type:Date,required: true, default: Date.now},
     numRatings: {type:Number,required:true, default:0},
-    avgRating: {type:Number,require:true, default:3,min:1,max:5}
+    totalRatings: {type:Number,required:true,default:0},
+    avgRating: {type:Number,require:true, default:0,min:0,max:5}
 });
 
 // Export the model

@@ -93,13 +93,37 @@ exports.songUpdate = function (req, res) {
 };
 
 exports.getSongs = function(req,res){
+    
     Song.find({},function(err,song) {
-        var songMap = {};
+        var songMap = [];//{};
+        // [];//{};
 
         song.forEach(function(song){
-            songMap[song._id] = song;
+            
+            //songMap[song._id] = song;
+            songMap.push(song);
+           // console.log(songMap[song._id]);
         });
-        res.send(songMap);
+
+        //find top ten songs.
+        var x = []; // what we will end up sending
+        var y = []; 
+        // sort the array 
+        songMap.sort(function(a,b){return b.avgRating - a.avgRating });
+        for(i = 0; i <songMap.length;i++){
+            console.log(songMap[i].avgRating);
+        }
+        
+        // add the top ten to x
+        for(i = 0; i< 10;i++){
+            x.push(songMap[i]);
+        }
+        console.log('x');
+        for(i = 0; i <x.length;i++){
+            console.log(x[i].avgRating);
+        }
+       // console.log(songMap);
+        res.send(x);
     });
     // Song.findById(req.params.id, function (err, song) {
     //     if (err) return next(err);

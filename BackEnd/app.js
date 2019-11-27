@@ -4,19 +4,21 @@ const bodyParser = require('body-parser');
 const song = require('./routes/song.route'); // Imports routes for the products
 const account = require('./routes/account.route');
 const review = require('./routes/review.route');
-const app = express();
 
-// Set up mongoose connection
-// const mongoose = require('mongoose');
-// let dev_db_url = "mongodb+srv://someuser:aTQILLzaSgd2lvOj@clusterlab5-9p81c.mongodb.net/test?retryWrites=true&w=majority";
-// let mongoDB = process.env.MONGODB_URI || dev_db_url;
-// mongoose.connect(mongoDB);
-// mongoose.Promise = global.Promise;
-// let db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+const app = express();
+app.use(function(req, res, next) {
+
+    res.header("Access-Control-Allow-Origin", "*");
+  
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    // this might fix it
+    res.header("Access-Control-Allow-Methods","GET, POST, OPTIONS, PUT, DELETE");
+  
+    next();
+  
+  });
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://someuser:aTQILLzaSgd2lvOj@clusterlab5-9p81c.mongodb.net/test?retryWrites=true&w=majority";
-
 const mongoose = require('mongoose');
 mongoose.connect(uri,{
     useNewUrlParser: true,
@@ -30,7 +32,8 @@ app.use('/api/songs', song);
 app.use('/api/account',account);
 app.use('/api/review',review);
 
-let port = 1234;app.listen(port, () => {
+let port = 8080;
+app.listen(port, () => {
     console.log('Server is running on port: ' + port);
 });
 
