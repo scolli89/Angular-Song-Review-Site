@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -16,7 +16,7 @@ export class HttpService {
   baseUrl: string = 'http://localhost:8080/api';
   //secure
   openUrl: string = '/songs/open/song/';
-
+  searchUrl: string = '/songs/open/search';
   reviewUrl: string = '/review/open/reviews/'
 
   getbeer() {
@@ -35,6 +35,19 @@ export class HttpService {
   getAllReviews(){
     console.log('in get all reviews');
     return this.http.get(this.baseUrl+this.reviewUrl);
+  }
+
+  getSongSearch(ttl,art,alb,grn,yr){
+    console.log(ttl + art+ alb + ""+grn+"" + yr);
+    console.log("Searching for songs");
+    let bod = {
+      title: ttl,
+      artist: art,
+      album: alb,
+      genre: grn,
+      year: yr
+    };
+    return this.http.get(this.baseUrl+this.searchUrl,bod);
   }
   
 

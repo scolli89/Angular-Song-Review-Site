@@ -159,8 +159,6 @@ exports.searchSongs = function(req,res){
                         x.push(songMap[i]);
                     }
             }
-
-
         }
 
 

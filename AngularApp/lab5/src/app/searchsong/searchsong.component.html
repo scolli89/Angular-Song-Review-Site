@@ -1,5 +1,6 @@
 <h1>Search For a Song</h1>
-<div>
+
+<div >
     <input type = "text" id = "titleBar" placeholder = "Title"><br>
     <input type = "text" id = "artistBar" placeholder = "Artist"><br>
     <input type = "text" id = "albumBar" placeholder = "Album"><br>
@@ -200,5 +201,36 @@
 
     </select> <br>
     <input type = "number" id = "Year" placeholder = "Year" min = "1990" max = "2020"><br>
-    <button id = "searchbtn" >Search!</button>
+    <button ng-app="myApp" ng-controller="myCtrl" id = "searchbtn" >Search!</button>
 </div>
+
+<script>
+console.log("top");
+var app = angular.modul('myApp',[]);
+app.controller('myCtrl',function($scope,$http) {
+//ng-app = "myApp ng-controller = "myCtrl">
+console.log("bong");
+    let btn = document.getElementById("searchbtn").addEventListener("click",searchButtonClick());
+    function searchButtonClick(){
+        console.log("bing");
+        let slt = document.getElementById("genreSelect").value;
+        let ttl = document.getElementById("titleBar").value;
+        let art = document.getElementById("artistBar").value;
+        let alb = document.getElementById("albumBar").value;
+        let yr = document.getElementById("Year").value;
+        let bod = {
+            title: ttl,
+            artist: art,
+            album: alb,
+            genre: grn,
+            year: yr
+        };
+
+        $http.get('http://localhost:8080/api/songs/open/search',body).then(function(response){
+            $scope.myWelcom = response.data;
+        });
+    }
+    
+    });
+
+</script>
