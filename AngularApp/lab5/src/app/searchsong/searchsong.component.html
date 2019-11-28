@@ -200,37 +200,31 @@
 <option value='191'>Psybient</option>
 
     </select> <br>
+    <input type ="number" id = "rating" placeholder = "Rating" min = "0" max = "5"><br>
     <input type = "number" id = "Year" placeholder = "Year" min = "1990" max = "2020"><br>
-    <button ng-app="myApp" ng-controller="myCtrl" id = "searchbtn" >Search!</button>
+    <button ng-app="myApp" ng-controller="myCtrl" id = "searchbtn" (click) = "submitButtonClick()">Search!</button>
 </div>
 
-<script>
-console.log("top");
-var app = angular.modul('myApp',[]);
-app.controller('myCtrl',function($scope,$http) {
-//ng-app = "myApp ng-controller = "myCtrl">
-console.log("bong");
-    let btn = document.getElementById("searchbtn").addEventListener("click",searchButtonClick());
-    function searchButtonClick(){
-        console.log("bing");
-        let slt = document.getElementById("genreSelect").value;
-        let ttl = document.getElementById("titleBar").value;
-        let art = document.getElementById("artistBar").value;
-        let alb = document.getElementById("albumBar").value;
-        let yr = document.getElementById("Year").value;
-        let bod = {
-            title: ttl,
-            artist: art,
-            album: alb,
-            genre: grn,
-            year: yr
-        };
+<div>
+    <h2 id = "resultsHead"> Search Results </h2>
+    <ol id = "resultsList"></ol>
 
-        $http.get('http://localhost:8080/api/songs/open/search',body).then(function(response){
-            $scope.myWelcom = response.data;
-        });
-    }
-    
-    });
-
-</script>
+<ul *ngIf="soughtSongs">
+    <button class ="info button" (click)="reviewClick()">Reviews?</button>
+    <li *ngFor="let song of soughtSongs">
+      <p class="title">Song Title: {{ song.title }}</p>
+      <p class="Artist">Artist: {{ song.artist }}</p>
+      <p class="album">Album: {{ song.album }}</p>
+      <p class="year">Year: {{ song.year }}</p>
+      <p class="genre">Genre: {{ song.genre }}</p>
+      <p class="avgRating">Average Rating: {{ song.avgRating }}</p>
+      <p class="title">Number of Ratings: {{ song.numRatings }}</p>
+      
+      <ul *ngIf="reviews">
+        <li *ngFor ="let r of reviews">
+          <p>Recent review: {{ r.comment }}</p>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

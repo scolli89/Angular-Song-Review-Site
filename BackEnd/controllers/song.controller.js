@@ -140,30 +140,112 @@ exports.searchSongs = function(req,res){
            // console.log(songMap[song._id]);
         });
         // we now have every song. 
+        console.log(req.params);
+        //console.log(req.body);
         //get the search parameters
-        srTtl = req.body.title;
-        srArt = req.body.artist;
-        srAlb = req.body.album;
-        srYr = req.body.year;
-        srGnr = req.body.genre;
+        let srTtl = req.body.title;
+        let srArt = req.body.artist;
+        let srAlb = req.body.album;
+        let srYr = req.body.year;
+        let srGnr = req.body.genre;
+        let srRate = req.body.avgRating;
+
+        srTtl = String(srTtl);
+        srArt = String(srArt);
+        srAlb = String(srAlb);
+        srYr = Number(srYr);
+        srGnr = Number(srGnr);
+        srRate = Number(srRate);
+
         // this is the 
         var x = [];
         
         // check if search parameters are good. 
-        if((srTtl != "")||(srArt != "")||(srAlb != "")||(srYr != "")||(srGnr != 999)){ 
+        if(srTtl != ""){ 
             // if any of the search parameters are not equal to the defualt values
-            for(var i = 0; i< songMap.length;i++){
-                if(songMap[i].title == srTtl|| songMap[i].artist ==srArt || songMap[i].album == srAlb||
-                    songMap[i].year == Number(srYr)||songMap[i].genre == srGnr){
-                        // if any of the parameters are match, add song to return array
+            for(var i = 0; i< songMap.length;i++){ // hard match first
+                if(String(songMap[i].title).toLowerCase() == String(srTtl).toLowerCase()) {
+                        // if any of the parameters are a match, add song to return array
                         x.push(songMap[i]);
-                    }
+                    console.log("Title Match " + songMap[i]);
+                        
+                }  
+            }  
+        } if(srArt != ""){
+            for( var i = 0; i < songMap.length; i++){
+                if(songMap[i].artist.toLowerCase() == srArt.toLowerCase()){
+                    x.push(songMap[i]);
+                    console.log("Artist Match " + songMap[i]);
+                }
+            }
+        } if(srAlb != ""){
+            for (var i = 0; i < songMap.length; i++){
+                if(songMap[i].album.toLowerCase() == srAlb.toLowerCase()){
+                    x.push(songMap[i]);
+                    console.log("alm Match" + songMap[i]);
+                }
+            }
+        } if( srGnr != 999){
+            for( var i = 0 ; i < songMap.length;i++){
+                if(songMap[i].genre == srGnr){
+                x.push(songMap[i]);
+                console.log("genre Match" + songMap[i]);
             }
         }
+        } if( srYr != "" && srYr >= 1900 && srYr <= 2020){
+            for(var i = 0; i< songMap.length; i++){
+                if(Math.abs(srYr-songMap[i].year) <= 0){
+                    x.push(songMap[i]);
+                    console.log("Close year: " + songMap[i]);
+                }
+            }
+        
+        } if(srRate != ""){
+            for(var i = 0; i<songMap.length; i++){
+                console.log(srRate+ " : " + songMap[i].avgRating);
+                if(srRate == songMap[i].avgRating){
+                    x.push(songMap[i]);
+                    console.log("Same Rating: " + songMap[i]);
+                }
+            }
+        }
+        //soft matching
+        for(var i = 0; i< songMap.length;i++){
+                 //soft matching on an keyword.
+                // if itstarts with the same letter and matches the length within 3 characters
+                //or the year is within 5 years
+                console.log( "CLose Rating: " + Number(songMap[i].avgRating) + ":" + srRate);
+         
+            if ((songMap[i].title.startsWith(srTtl[0]) && Math.abs(songMap[i].title.length - srTtl.length) <=3) ||
+                    (songMap[i].artist.startsWith(srArt[0]) && Math.abs(songMap[i].artist.length - srArt.length) <=3) ||
+                    (songMap[i].album.startsWith(srAlb[0]) && Math.abs(songMap[i].album.length - srAlb.length) <=3) ||
+                    (Math.abs(Number(songMap[i].year) - Number(srYr)) <= 3) ||(Math.abs(Number(songMap[i].avgRating) - srRate)<=1)){
+                        console.log("soft match: "+ songMap[i]);
+                        x.push(songMap[i]);
+                }
+                
 
+        }
+        // checking for duplicates.
+        console.log("CHECKING FOR DUPLICATES");
+        for(var i = 0; i< x.length ; i++){ // value to compare
+            for(var j = 0; j <x.length ; j++){
+                if(x[i] == x[j] && i != j){
+                    console.log(i + " " +x[i].title)
+                    console.log(j + " "+ x[j].title);
+                    x.splice(j,1);
+                    //delete x[j];
+                }
+            }
 
-
+        }
+        console.log(x);
+        // deleting the null entries 
+        
         res.send(x);
+        });
 
-    })
-};
+        
+
+    }
+

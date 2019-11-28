@@ -20,8 +20,8 @@ router.put('/secure/song/:id',song_controller.songUpdate); //c. POST /api/secure
 
 // open
 router.get('/open/song',song_controller.getSongs);//GET /api/open/song - return a list of 10 songs ordered by average rating. Optionally, you may pass a query parameter to indicate the number of results to return. 
-router.get('/open/search',song_controller.searchSongs); //e. GET /api/open/search - return a list of songs matching the search criteria provided as query parameters. 
-
+router.post('/open/song',song_controller.searchSongs); //e. GET /api/open/search - return a list of songs matching the search criteria provided as query parameters. 
+//this now searches a song
 
 // admin
 router.get('/admin/copyright',song_controller.copyright);

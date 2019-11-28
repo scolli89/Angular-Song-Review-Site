@@ -37,17 +37,20 @@ export class HttpService {
     return this.http.get(this.baseUrl+this.reviewUrl);
   }
 
-  getSongSearch(ttl,art,alb,grn,yr){
-    console.log(ttl + art+ alb + ""+grn+"" + yr);
+  getSongSearch(rate,ttl,art,alb,grn,yr){
+    console.log(rate+ ttl + art+ alb + ""+grn+"" + yr);
     console.log("Searching for songs");
-    let bod = {
+    let body = {
       title: ttl,
       artist: art,
       album: alb,
       genre: grn,
-      year: yr
+      year: yr,
+      avgRating: rate
     };
-    return this.http.get(this.baseUrl+this.searchUrl,bod);
+    console.log(body);
+    let u = this.baseUrl + this.openUrl;
+    return this.http.post(u,body);
   }
   
 
