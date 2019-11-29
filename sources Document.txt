@@ -17,3 +17,6 @@ https://futurism.com/policies/dmca
 
 SOFT MATCHING STRINGS:
 https://www.npmjs.com/package/string-similarity
+
+TO GET AN ELEMENT FROM THE PAGE
+https://stackoverflow.com/questions/48226868/document-getelementbyid-replacement-in-angular4-typescript

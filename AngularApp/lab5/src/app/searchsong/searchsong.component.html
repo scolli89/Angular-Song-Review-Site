@@ -211,7 +211,7 @@
 
 <ul *ngIf="soughtSongs">
     <button class ="info button" (click)="reviewClick()">Reviews?</button>
-    <li *ngFor="let song of soughtSongs">
+    <li *ngFor="let song of soughtSongs; let i = index" id = "li{{i}}" title ="{{song._id}}">
       <p class="title">Song Title: {{ song.title }}</p>
       <p class="Artist">Artist: {{ song.artist }}</p>
       <p class="album">Album: {{ song.album }}</p>
@@ -219,12 +219,11 @@
       <p class="genre">Genre: {{ song.genre }}</p>
       <p class="avgRating">Average Rating: {{ song.avgRating }}</p>
       <p class="title">Number of Ratings: {{ song.numRatings }}</p>
-      
-      <ul *ngIf="reviews">
-        <li *ngFor ="let r of reviews">
-          <p>Recent review: {{ r.comment }}</p>
-        </li>
-      </ul>
     </li>
   </ul>
+</div>
+
+<div >
+  <h1 #rHead id = "rhead"></h1>
+  <ol id = "reviewLine" ></ol>
 </div>

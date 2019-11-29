@@ -200,7 +200,7 @@ exports.searchSongs = function(req,res){
                 }
             }
         
-        } if(srRate != ""&& srYr >= 0 && srYr <= 5){
+        } if(srRate != 999 && srYr >= 0 && srYr <= 5){
             for(var i = 0; i<songMap.length; i++){
                 console.log(srRate+ " : " + songMap[i].avgRating);
                 if(srRate == songMap[i].avgRating){

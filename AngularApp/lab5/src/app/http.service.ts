@@ -40,17 +40,17 @@ export class HttpService {
     return this.http.get( this.openUrl + '/reviews');
   }
 
-  getReviews(s){
-    console.log(s);
-    console.log("All reviews for: "+ s);
+  getReviewsOfSong(sid){
+    console.log(sid);
+    console.log("All reviews for: "+ sid);
     let body = {
-      _id: s
+      _id: sid
     };
     let u = this.openUrl +'/reviews';
     return this.http.post(u,body);
   }
   getSongSearch(rate,ttl,art,alb,grn,yr){
-    console.log(rate+ ttl + art+ alb + ""+grn+"" + yr);
+    //console.log(rate+ ttl + art+ alb + ""+grn+"" + yr);
     console.log("Searching for songs");
     let body = {
       title: ttl,
