@@ -35,13 +35,40 @@ exports.getReviewsOfSong = function(req, res){ // gets all the reviews of a song
     // })
 };
 
-exports.getAllReviews = function (req,res){
+exports.getRecentReviews = function (req,res){
     Review.find({},function(err,review){
         var reviewMap = [];
         review.forEach(function(review){
             reviewMap.push(review);
         })
-        res.send(reviewMap);
+        // we have all the reviews
+        let x = []; // this will return only the recent reviews of every song.
+        reviewMap.sort(function(a,b){return b.submittedOn - a.submittedOn });
+        
+        console.log(reviewMap);
+
+        console.log("CHECKING FOR same songs");
+
+        for(var i = 0;i<reviewMap.length;i++){ // most recent value
+            for(var j = 0; j<reviewMap.length;j++){ // value to remove
+                if(reviewMap[i].songId == reviewMap[j].songId && i != j && reviewMap[j].songId != "REMOVE"){
+                    console.log(reviewMap[j].songId);
+                    reviewMap[j].songId = "REMOVE"; // add it to the do not send list. 
+                }
+            }
+        }
+        
+        // remove the older versions
+        console.log(reviewMap.length);
+        for (var i = 0; i < reviewMap.length;i++){
+            console.log("2nd"+ reviewMap[i].songId);
+            if(reviewMap[i].songId != "REMOVE"){
+                x.push(reviewMap[i]); // add the ones that are not to be removed.
+            }
+        }
+        console.log(x);
+
+        res.send(x);
     });
 }
 

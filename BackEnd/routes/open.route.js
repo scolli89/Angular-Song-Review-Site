@@ -15,7 +15,7 @@ router.post('/song',song_controller.searchSongs); //e. GET /api/open/search - re
 
 // reviews
 router.post('/reviews',review_controller.getReviewsOfSong);
-router.get('/reviews',review_controller.getAllReviews);
+router.get('/reviews',review_controller.getRecentReviews);
 
 //acounts
 router.post('/createaccount',account_controller.create_account);

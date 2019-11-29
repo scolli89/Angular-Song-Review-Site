@@ -8,42 +8,20 @@
       <p class="artist">Artist: {{ song.artist }}</p>
       <p class="avgRating">Rating: {{ song.avgRating }}</p>
 
-      <button id ="btn{{i}}" class ="info button" (click)="infoClick()">more info</button>
-        <ng-template [ngIf]="infoClicked == true" [ngIfElse]= "none">
+      <button id ="btn{{song._id}}" class ="info button" (click)="infoClick()">more info</button>
+        <ng-template [ngIf]="infoClicked%2 ==1" [ngIfElse]= "none">
           <p>Album: {{ song.album }}</p>
           <p>Year: {{ song.year}} </p>
           <p>Genre: {{ song.genre}} </p>
           <p>Submitted By: {{ song.submittedBy}} </p>
           <p>Submitted On: {{ song.submittedOn}} </p>
           <p># of Ratings: {{ song.numRatings}} </p>
-          <ul *ngIf="reviews">
-            <li>
-              <p>Recent review: {{ reviews.comment }}</p>
-            </li>
-          </ul>
         </ng-template>
     </li>
   </ul>
 </div>
 
-<div>
-  <h1> Get Reviews </h1>
-  <select id = "reviewSlt" >
-      
-  </select >
-  <button ng-app="myApp" ng-controller="myCtrl" id = "reviewBtn" (click) = "reviewBtnClick()">Get Reviews!</button>
-</div>
 
-<div>
-    <ul *ngIf="songReviews">  
-        <li *ngFor="let r of songReviews; let i = index">
-          <p class="title">{{ i+1 }}. Song: {{ r.comment }}</p>
-        </li>
-      </ul>
-  <br>
-  <br>
-  <br>
-</div>
 
 
 
