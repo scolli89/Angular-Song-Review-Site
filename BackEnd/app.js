@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const song = require('./routes/song.route'); // Imports routes for the products
 const account = require('./routes/account.route');
 const review = require('./routes/review.route');
+const opn = require('./routes/open.route');
+const adm = require('./routes/admin.route');
+const secr = require('./routes/secure.route');
 
 const app = express();
 app.use(function(req, res, next) {
@@ -28,9 +31,14 @@ console.log('connected to the database(mongoose)');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/api/songs', song);
-app.use('/api/account',account);
-app.use('/api/review',review);
+//routes old
+// app.use('/api/songs', song);
+// app.use('/api/account',account);
+// app.use('/api/review',review);
+//routes new
+app.use('/api/open',opn);
+app.use('/api/secure',secr);
+app.use('/api/admin',adm);
 
 let port = 8080;
 app.listen(port, () => {

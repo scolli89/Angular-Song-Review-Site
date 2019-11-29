@@ -13,11 +13,14 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   //baseUrl
-  baseUrl: string = 'http://localhost:8080/api';
-  //secure
-  openUrl: string = '/songs/open/song/';
+  openUrl: string = 'http://localhost:8080/api/open';
+  secureUrl: string = 'http://localhost:8080/secure';
+  adminUrl: string = 'http://localhost:8080/admin';
+
+  url: string = '/songs/open/song';
   searchUrl: string = '/songs/open/search';
-  reviewUrl: string = '/review/open/reviews/'
+  reviewUrl: string = '/review/open/reviews';
+
 
   getbeer() {
     return this.http.get('https://api.openbrewerydb.org/breweries');
@@ -29,12 +32,12 @@ export class HttpService {
 
   getAllSongs(){
     console.log("inrequest");
-    return this.http.get(this.baseUrl + this.openUrl);
+    return this.http.get(this.openUrl +"/song");
   }
 
   getAllReviews(){
     console.log('in get all reviews');
-    return this.http.get(this.baseUrl+this.reviewUrl);
+    return this.http.get( this.openUrl + '/reviews');
   }
 
   getReviews(s){
@@ -43,7 +46,7 @@ export class HttpService {
     let body = {
       _id: s
     };
-    let u = this.baseUrl = this.reviewUrl;
+    let u = this.openUrl +'/reviews';
     return this.http.post(u,body);
   }
   getSongSearch(rate,ttl,art,alb,grn,yr){
@@ -58,7 +61,7 @@ export class HttpService {
       avgRating: rate
     };
     console.log(body);
-    let u = this.baseUrl + this.openUrl;
+    let u = this.openUrl + '/song';
     return this.http.post(u,body);
   }
   

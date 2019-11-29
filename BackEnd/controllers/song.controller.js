@@ -200,7 +200,7 @@ exports.searchSongs = function(req,res){
                 }
             }
         
-        } if(srRate != ""){
+        } if(srRate != ""&& srYr >= 0 && srYr <= 5){
             for(var i = 0; i<songMap.length; i++){
                 console.log(srRate+ " : " + songMap[i].avgRating);
                 if(srRate == songMap[i].avgRating){
@@ -210,6 +210,7 @@ exports.searchSongs = function(req,res){
             }
         }
         //soft matching 60% threshold
+        console.log("SOFT MATCHING");
         for(var i = 0; i< songMap.length;i++){
                  //soft matching on an keyword.
                 // if itstarts with the same letter and matches the length within 3 characters
@@ -223,12 +224,17 @@ exports.searchSongs = function(req,res){
             //             console.log("soft match: "+ songMap[i]);
             //             x.push(songMap[i]);
             // }
-            if ((stringSimilarity.compareTwoStrings(songMap[i].title.toLowerCase(),srTtl.toLowerCase()) >= 0.6) ||
+            if ((stringSimilarity.compareTwoStrings(songMap[i].title.toLowerCase(),srTtl.toLowerCase())>= 0.6) ||
                 (stringSimilarity.compareTwoStrings(songMap[i].artist.toLowerCase(),srArt.toLowerCase())>=0.6) ||
-                (stringSimilarity.compareTwoStrings(songMap[i].album.toLowerCase(),srAlb.toLowerCase()))>=0.6 ||
+                (stringSimilarity.compareTwoStrings(songMap[i].album.toLowerCase(),srAlb.toLowerCase())>=0.6 )||
                 (Math.abs(Number(songMap[i].year) - Number(srYr)) <= 3) ||
                 (Math.abs(Number(songMap[i].avgRating) - srRate)<=1)){
-                    console.log("soft match: "+ songMap[i]);
+                    console.log(songMap[i].title);
+                    console.log("Title Soft: " + stringSimilarity.compareTwoStrings(songMap[i].title.toLowerCase(),srTtl.toLowerCase()));
+                    console.log("artist Soft: " + stringSimilarity.compareTwoStrings(songMap[i].artist.toLowerCase(),srArt.toLowerCase()));
+                    console.log("album Soft: " + stringSimilarity.compareTwoStrings(songMap[i].album.toLowerCase(),srAlb.toLowerCase()));
+                    console.log(Math.abs(Number(songMap[i].year) - Number(srYr)));
+                    console.log(Math.abs(Number(songMap[i].avgRating) - srRate));
                     x.push(songMap[i]);
             } 
 
@@ -249,8 +255,6 @@ exports.searchSongs = function(req,res){
         // useless
         var similarity = stringSimilarity.compareTwoStrings('healed', 'sealed'); 
         var matches = stringSimilarity.findBestMatch('healed', ['edward', 'sealed', 'theatre']);
-        console.log('2' + similarity);
-        console.log("3"+ matches);
         res.send(x);
         });
 }
