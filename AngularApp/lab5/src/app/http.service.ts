@@ -37,6 +37,15 @@ export class HttpService {
     return this.http.get(this.baseUrl+this.reviewUrl);
   }
 
+  getReviews(s){
+    console.log(s);
+    console.log("All reviews for: "+ s);
+    let body = {
+      _id: s
+    };
+    let u = this.baseUrl = this.reviewUrl;
+    return this.http.post(u,body);
+  }
   getSongSearch(rate,ttl,art,alb,grn,yr){
     console.log(rate+ ttl + art+ alb + ""+grn+"" + yr);
     console.log("Searching for songs");

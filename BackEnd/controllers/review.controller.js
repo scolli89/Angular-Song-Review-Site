@@ -14,9 +14,9 @@ exports.getReviewsOfSong = function(req, res){ // gets all the reviews of a song
         });
         console.log("xxxxx");
         console.log(reviewMap);
-        theSong = req.params.id; // the song we are trying to get reviews for
-        x = [];// array we will send back
-        for(i = 0; i< reviewMap.length;i++ ){
+        theSong = req.body._id; // the song we are trying to get reviews for
+        let x = [];// array we will send back
+        for(i = 0; i< reviewMap.length;i++ ){ // add all the reviews of the song match
             if (reviewMap[i].songId == theSong){
                 x.push(reviewMap[i]);
             }
@@ -24,6 +24,7 @@ exports.getReviewsOfSong = function(req, res){ // gets all the reviews of a song
 
         console.log(x);
         res.send(x);
+        console.log("After send");
     });
 
 

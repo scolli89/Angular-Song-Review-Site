@@ -4,3 +4,16 @@ Use: I followed this tutorial to get started with the angular front end. As such
 
 Source: https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb
 Use: i followed this tutorial in setting up the back end and access to mongodb. The strucutre is the same, however, i expanded on the existing code to incorporate the needs for multiple routes for lab5. 
+
+PRIVCAY POLICY GENERTOR:
+https://app.privacypolicies.com/builder/download/retrieve?token=6a9bcd292c431aed591d63d23fd88580
+
+SECURITY POLICY GENERATOR: 
+https://www.sans.org/security-resources/policies
+
+
+DMCA Policy based off of:
+https://futurism.com/policies/dmca
+
+SOFT MATCHING STRINGS:
+https://www.npmjs.com/package/string-similarity

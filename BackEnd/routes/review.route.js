@@ -5,7 +5,7 @@ const router = express.Router();
 
 const review_controller = require('../controllers/review.controller');
 //open
-router.get('/open/reviews/:id',review_controller.getReviewsOfSong);
+router.post('/open/reviews',review_controller.getReviewsOfSong);
 router.get('/open/reviews',review_controller.getAllReviews);
 //secure
 // this was a .put

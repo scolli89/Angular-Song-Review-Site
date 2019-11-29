@@ -1,7 +1,8 @@
 
-<h1 >Top Songs </h1>
+<h1 id = "rt" >Top Songs </h1>
 <div>
-  <ul *ngIf="topSongs" >
+ 
+  <ul *ngIf="topSongs">  
     <li *ngFor="let song of topSongs; let i = index">
       <p class="title">{{ i+1 }}. Song: {{ song.title }}</p>
       <p class="artist">Artist: {{ song.artist }}</p>
@@ -20,15 +21,29 @@
               <p>Recent review: {{ reviews.comment }}</p>
             </li>
           </ul>
-
-
-
         </ng-template>
     </li>
   </ul>
 </div>
 
+<div>
+  <h1> Get Reviews </h1>
+  <select id = "reviewSlt" >
+      
+  </select >
+  <button ng-app="myApp" ng-controller="myCtrl" id = "reviewBtn" (click) = "reviewBtnClick()">Get Reviews!</button>
+</div>
 
+<div>
+    <ul *ngIf="songReviews">  
+        <li *ngFor="let r of songReviews; let i = index">
+          <p class="title">{{ i+1 }}. Song: {{ r.comment }}</p>
+        </li>
+      </ul>
+  <br>
+  <br>
+  <br>
+</div>
 
 
 

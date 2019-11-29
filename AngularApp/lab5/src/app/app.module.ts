@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TopSongsComponent } from './top-songs/top-songs.component';
 import { SearchsongComponent } from './searchsong/searchsong.component';
+import { SPDMCAComponent } from './spdmca/spdmca.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SearchsongComponent } from './searchsong/searchsong.component';
     HomeComponent,
     ListComponent,
     TopSongsComponent,
-    SearchsongComponent
+    SearchsongComponent,
+    SPDMCAComponent
   ],
   imports: [
     BrowserModule,

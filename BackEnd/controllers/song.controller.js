@@ -1,5 +1,5 @@
 const Song = require('../models/song.model');
-
+var stringSimilarity = require('string-similarity');
 
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
@@ -160,7 +160,7 @@ exports.searchSongs = function(req,res){
         // this is the 
         var x = [];
         
-        // check if search parameters are good. 
+        // checking for exact matches
         if(srTtl != ""){ 
             // if any of the search parameters are not equal to the defualt values
             for(var i = 0; i< songMap.length;i++){ // hard match first
@@ -209,21 +209,28 @@ exports.searchSongs = function(req,res){
                 }
             }
         }
-        //soft matching
+        //soft matching 60% threshold
         for(var i = 0; i< songMap.length;i++){
                  //soft matching on an keyword.
                 // if itstarts with the same letter and matches the length within 3 characters
                 //or the year is within 5 years
-                console.log( "CLose Rating: " + Number(songMap[i].avgRating) + ":" + srRate);
+            console.log( "CLose Rating: " + Number(songMap[i].avgRating) + ":" + srRate);
          
-            if ((songMap[i].title.startsWith(srTtl[0]) && Math.abs(songMap[i].title.length - srTtl.length) <=3) ||
-                    (songMap[i].artist.startsWith(srArt[0]) && Math.abs(songMap[i].artist.length - srArt.length) <=3) ||
-                    (songMap[i].album.startsWith(srAlb[0]) && Math.abs(songMap[i].album.length - srAlb.length) <=3) ||
-                    (Math.abs(Number(songMap[i].year) - Number(srYr)) <= 3) ||(Math.abs(Number(songMap[i].avgRating) - srRate)<=1)){
-                        console.log("soft match: "+ songMap[i]);
-                        x.push(songMap[i]);
-                }
-                
+            // if ((songMap[i].title.startsWith(srTtl[0]) && Math.abs(songMap[i].title.length - srTtl.length) <=3) ||
+            //         (songMap[i].artist.startsWith(srArt[0]) && Math.abs(songMap[i].artist.length - srArt.length) <=3) ||
+            //         (songMap[i].album.startsWith(srAlb[0]) && Math.abs(songMap[i].album.length - srAlb.length) <=3) ||
+            //         (Math.abs(Number(songMap[i].year) - Number(srYr)) <= 3) ||(Math.abs(Number(songMap[i].avgRating) - srRate)<=1)){
+            //             console.log("soft match: "+ songMap[i]);
+            //             x.push(songMap[i]);
+            // }
+            if ((stringSimilarity.compareTwoStrings(songMap[i].title.toLowerCase(),srTtl.toLowerCase()) >= 0.6) ||
+                (stringSimilarity.compareTwoStrings(songMap[i].artist.toLowerCase(),srArt.toLowerCase())>=0.6) ||
+                (stringSimilarity.compareTwoStrings(songMap[i].album.toLowerCase(),srAlb.toLowerCase()))>=0.6 ||
+                (Math.abs(Number(songMap[i].year) - Number(srYr)) <= 3) ||
+                (Math.abs(Number(songMap[i].avgRating) - srRate)<=1)){
+                    console.log("soft match: "+ songMap[i]);
+                    x.push(songMap[i]);
+            } 
 
         }
         // checking for duplicates.
@@ -239,13 +246,14 @@ exports.searchSongs = function(req,res){
             }
 
         }
-        console.log(x);
-        // deleting the null entries 
-        
+        // useless
+        var similarity = stringSimilarity.compareTwoStrings('healed', 'sealed'); 
+        var matches = stringSimilarity.findBestMatch('healed', ['edward', 'sealed', 'theatre']);
+        console.log('2' + similarity);
+        console.log("3"+ matches);
         res.send(x);
         });
-
-        
-
-    }
-
+}
+    
+ 
+    
