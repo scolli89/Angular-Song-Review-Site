@@ -1,7 +1,7 @@
 span {
     font-weight: bold;
     background: lightgray;
-    padding: .3em .8em;
+    padding: .1em .5em;
     cursor: pointer;
 }
 
@@ -21,4 +21,10 @@ span {
 }
 .notactive {
     background-color: lightgray;
+}
+#email {
+    display: none
+}
+#pword {
+    display :none
 }
