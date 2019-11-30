@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
 
 
 
@@ -14,8 +15,8 @@ export class HttpService {
 
   //baseUrl
   openUrl: string = 'http://localhost:8080/api/open';
-  secureUrl: string = 'http://localhost:8080/secure';
-  adminUrl: string = 'http://localhost:8080/admin';
+  secureUrl: string = 'http://localhost:8080/api/secure';
+  adminUrl: string = 'http://localhost:8080/api/admin';
 
   url: string = '/songs/open/song';
   searchUrl: string = '/songs/open/search';
@@ -64,7 +65,27 @@ export class HttpService {
     let u = this.openUrl + '/song';
     return this.http.post(u,body);
   }
-  
+  loginUser(_email,_pword){
+    console.log("Sending Authentication")
+    let body = {
+      email: _email,
+      password: _pword
+    } ;
+    let u = this.secureUrl + "/secure/login"
+    return this.http.post(u,body);
+
+  }
+  registerUser(_email,_pword){
+    console.log("REgistering user");
+    let body = {
+      email: _email,
+      password: _pword
+    };
+    
+    let u = this.secureUrl + "/register";
+    console.log(u);
+    return this.http.post(u,body);
+  }
 
 }
 

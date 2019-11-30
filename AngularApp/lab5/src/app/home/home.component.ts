@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef,ViewChild } from '@angular/core';
 import { HttpService } from '../http.service';
+import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
 
 
 
@@ -11,9 +12,15 @@ import { HttpService } from '../http.service';
 })
 export class HomeComponent implements AfterViewInit {
 
-  
+  currentUser: {
+    id: String,
+    email: String,
+    isAdmin: Boolean,
+    isDeactivated: Boolean
+  }
   clickCounter: number = 0;
   name: string = '';
+  aUser: any;
   @ViewChild('loginLine',{static:false}) loginLine: ElementRef;
   @ViewChild('emailAddress',{static:false}) emailIn: ElementRef;
   @ViewChild('pword',{static:false}) pwIn: ElementRef;
@@ -38,37 +45,83 @@ export class HomeComponent implements AfterViewInit {
     return myClasses;
   }
 
-  makeLogin(e,p,s){
-    console.log(e,p);
+  makeLogin(e,p,l,r,lb,rb,lgn){
+    
+    //login button pushed
+      if (e.style.display === "none") {
+        e.style.display = "inline";
+      } else {
+        e.style.display = "none";
+      }
+      if (p.style.display === "none") {
+       p.style.display = "inline";
+     } else {
+        p.style.display = "none";
+      }
+      if(lgn == true){ 
+      l.style.display ="inline";
+      r.style.display = "none";
+      lb.style.display = "inline";
+      rb.style.display = "none";
+    } else if  (lgn == false){
+      //dispplay the register header
+      r.style.display ="inline";
+      l.style.display = "none";
+      lb.style.display = "none";
+      rb.style.display = "inline";
+
+    }
+    
+    
+
+  }
+
+  loginRegister(e,p,lgn){
+
+    if (e.value.indexOf("@") == -1 ||e.value.indexOf(".") == -1 || e.value.length <= 5 ){ // email validation 
+      console.log("invalid email");
+      e.value = "";
+      e.placeholder = "ENTER VALID EMAIL";
+      return;
+    } else {
+      console.log ("Goode email");
+    }
+    // check value of the lgn variable. 
+    // if 1, it will 
+    // if 0, it will allow th euser to register 
+    if (lgn){
+      //logining in
+      //allow the user to login.
+      //make http call
+      this.http.loginUser(e.value,p.value).subscribe(
+        response=> {
+          this.aUser = response;
+          console.log(response);
+
+
+        },
+        error => {
+          console.log('oh no');
+        },
+        () => {
+          console.log("ALWAYSHAPPENS");
+        });
+
+    } else{//registering
+      console.log(e.value,p.value);
+      //sending the registration request
+      this.http.registerUser(e.value,p.value).subscribe(
+        response => {
+          this.aUser = response;
+          //log in those who just registered
+          console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
    
-    if (e.style.display === "none") {
-      e.style.display = "inline";
-    } else {
-      e.style.display = "none";
-    }
-    if (p.style.display === "none") {
-      p.style.display = "inline";
-    } else {
-      p.style.display = "none";
-    }
-    
-
-  }
-  enterPE (e,p){
-    console.log(e.value);
-    console.log(p.value);
-    if(e.value != "" && p.value != ""){
-      console.log("sends")
-      // now call the http service to log in .
-
-    }
-
-
-  }
-
-  focusOutHandler(e){
-    
-    console.log(e.value);
   }
 
 

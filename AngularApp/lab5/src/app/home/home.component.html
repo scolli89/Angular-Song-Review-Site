@@ -4,17 +4,18 @@
 <p>This site offers users the chance to review popular songs.</p>
 
 <div>
-    <button id = "Login Button" (click) = "makeLogin(email,pword)">Login!</button> <br>
+    <button id = "Login Button" (click) = "makeLogin(email,pword,LHead,RHead,lbtn,rbtn,true)">Login!</button> 
+    <button id ="regBtn"(click) = "makeLogin(email,pword,LHead,RHead,lbtn,rbtn,false)">Register!</button><br>
     <form>
-        <input id = "email" type = email #email placeholder = "email" display = none (focusout) = "enterPE(email,pword)"> <br>
-        <input id = "pword" type = password #pword placeholder = "password" display = none (focusout) = "enterPE(email,pword)"> <br>
+        <h2 #LHead id = "LHead"> USER LOGIN</h2><br>
+        <h2 #RHead id = "RHead"> USER REGISTER</h2><br>
+        <input id = "email" type = email #email placeholder = "email"  > <br>
+        <input id = "pword" type = password #pword placeholder = "password" > <br>
+        <button id = "lbtn" #lbtn (click) = "loginRegister(email,pword,true)">Login</button>
+        <button id = "rbtn" #rbtn (click)= "loginRegister(email,pword,false)">Register</button>
     </form>
 </div>
 
-<div>
-    <span>Enter Email</span>
-    <input type="text" #emadil (focusout) = "focusOutHandler(emaidl)"/>
-</div>
 
 
 

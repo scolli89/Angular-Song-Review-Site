@@ -22,11 +22,12 @@ if(!config.get("myprivatekey")){
 
 app.use(function(req, res, next) { // for cores ersuests
 
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin","*"); //"http://localhost:4200");
   
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     // this might fix it
     res.header("Access-Control-Allow-Methods","GET, POST, OPTIONS, PUT, DELETE");
+    //res.header("Access-Control-Allow-Origin = http://localhost:4200");
   
     next();
   
@@ -44,7 +45,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 //tutorial route
-app.use("/api/users",usersRoute);
+app.use("/api/users",usersRoute); // discontinued
 //routes new
 app.use('/api/open',opn);
 app.use('/api/secure',secr);
