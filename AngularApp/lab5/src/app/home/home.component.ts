@@ -23,7 +23,10 @@ export class HomeComponent implements AfterViewInit {
   clickCounter: number = 0;
   name: string = '';
   aUser: any;
+  userAdmin: boolean = false;
   userActive: boolean = false;
+  userSettingsBool: boolean = false;
+  
   songMaker: boolean = false;
   reviewMaker: boolean = false;
   allSongs: any =[];
@@ -116,7 +119,9 @@ export class HomeComponent implements AfterViewInit {
             _id: response._id,
             isAdmin: response.isAdmin,
             isDeactivated:response.isDeactivated
-          } ;
+          };
+          this.userAdmin = response.isAdmin;
+          console.log(this.userAdmin);
           this.theToken = response.t;
           this.userActive = true;
           console.log(this.aUser);
@@ -301,6 +306,10 @@ export class HomeComponent implements AfterViewInit {
       }
     )
 
+
+  }
+  makeChangeSettings(){
+    this.userSettingsBool = (! this.userSettingsBool);
 
   }
 

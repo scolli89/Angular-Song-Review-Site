@@ -2,6 +2,10 @@
 
 <h1>Welcome! to Se3316 Lab5, The Song review site. </h1>
 <p>This site offers users the chance to review popular songs.</p>
+<ng-template [ngIf]= "userAdmin == true">
+        <h3 >Welcome Admin</h3>
+</ng-template>
+
 
 <div>
     <button id = "Login Button" (click) = "makeLogin(email,pword,LHead,RHead,lbtn,rbtn,true)">Login!</button> 
@@ -22,6 +26,22 @@
         <button id = "rbtn" #rbtn (click)= "loginRegister(email,pword,false)">Register</button>
     </form>
 </div>
+
+
+
+
+<ng-template [ngIf]= "userAdmin == true">
+        <div> 
+                <button (click) = "makeChangeSettings()">Change User Settings</button>
+                <ng-template [ngIf]= "userSettingsBool == true">
+                        <h1>Hiyas</h1>
+                </ng-template>
+        </div>
+
+
+
+</ng-template>
+
 <div>
     <button (click) = "getUser()">get the current user</button>
     <ng-template [ngIf]= "userActive == true">
