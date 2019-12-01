@@ -7,7 +7,7 @@ let SongSchema = new Schema({
     artist: {type: String, required: true,max: 30},
     album: {type:String,required: false,max: 30},
     year: {type:String, required: false,max:4},
-    comment: {type:String,required: false,max: 28},
+    comment: {type:String,required: false,max: 28,default: ""},
     zeroByte: {type:Boolean,required:false, defult:1}, // if 0 track number is the track number , if 1, track number is measning less.
     track:{type:Number,required:false,default:0},
     genre:{type:Number,require: false,min:0,max:191},

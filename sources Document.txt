@@ -26,3 +26,6 @@ https://medium.com/quick-code/handling-authentication-and-authorization-with-nod
 
 USED TO LEARN TO SEND HEADERS
 https://stackoverflow.com/questions/45286764/adding-a-http-header-to-the-angular-httpclient-doesnt-send-the-header-why
+
+splitting a sentence into an array
+https://www.w3resource.com/javascript-exercises/javascript-string-exercise-3.php

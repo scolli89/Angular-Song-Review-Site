@@ -58,7 +58,17 @@ export class HttpService {
   }
   getSongSearch(rate,ttl,art,alb,grn,yr){
     //console.log(rate+ ttl + art+ alb + ""+grn+"" + yr);
+    let u = this.openUrl + '/song';
     console.log("Searching for songs");
+    console.log(rate,art,alb,grn,yr);
+    if (rate == 0 && art == 0 && alb == 0 && grn == 0 && yr == 0){
+      // then this is a search by keywords.
+      let body ={
+          keyword:ttl
+      };
+      console.log(body);
+      return this.http.post(u,body);
+    }
     let body = {
       title: ttl,
       artist: art,
@@ -68,7 +78,7 @@ export class HttpService {
       avgRating: rate
     };
     console.log(body);
-    let u = this.openUrl + '/song';
+    
     return this.http.post(u,body);
   }
   loginUser(_email,_pword){

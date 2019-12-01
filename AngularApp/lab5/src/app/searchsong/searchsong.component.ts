@@ -80,6 +80,23 @@ export class SearchsongComponent implements AfterViewInit{// implements OnInit {
       });
   };
 
+  searchByKeyword(kword){
+    let w = kword.value;
+    console.log(w);
+    if(w == "" ){
+      return "Enter Keyword to search";
+    }
+    this.http.getSongSearch(0,w,0,0,0,0).subscribe(
+      response => {
+        this.soughtSongs = response;
+        
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
   reviewClick = function(): void{
     // loop through all the possible reviews.
     try{
