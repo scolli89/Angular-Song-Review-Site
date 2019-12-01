@@ -11,6 +11,7 @@ const account_controller = require('../controllers/account.controller');
 // songs
 router.get('/song',song_controller.getSongs);//GET /api/open/song - return a list of 10 songs ordered by average rating. Optionally, you may pass a query parameter to indicate the number of results to return. 
 router.post('/song',song_controller.searchSongs); //e. GET /api/open/search - return a list of songs matching the search criteria provided as query parameters. 
+router.get('/allsongs',song_controller.getAllSongs);
 //this now searches a song
 
 // reviews

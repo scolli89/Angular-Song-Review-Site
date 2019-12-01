@@ -1,29 +1,68 @@
 const Song = require('../models/song.model');
 var stringSimilarity = require('string-similarity');
-
+const sanitizeHtml = require('sanitize-html');
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
     res.send('Greetings from the Test controller!');
 };
 
-exports.song_create = function (req, res) {
+exports.song_create = async function (req, res) {
     let song = new Song(
         {
-            // name: req.body.name,
-            // price: req.body.price
-            title: req.body.title,
-            artist: req.body.artist,
-            album: req.body.album,
-            year: req.body.year,
-           // comment: req.body.comment,
-            genre: req.body.genre,
-            submittedBy: req.body.submittedBy,
-            submittedOn: req.body.submittedOn,
-            numRatings: req.body.numRatings,
-            avgRating: req.body.avgRating
+            
+            hdr: "TAG",
+            title: sanitizeHtml(req.body.title,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            artist: sanitizeHtml(req.body.artist,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            album: sanitizeHtml(req.body.album,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            year: sanitizeHtml(req.body.year,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            comment: sanitizeHtml(req.body.commet,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            zeroByte: sanitizeHtml(req.body.zb,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            track: sanitizeHtml(req.body.track,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            genre: sanitizeHtml(req.body.genre,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            submittedBy: sanitizeHtml(req.body.submittedBy,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            submittedOn: Date.now(),
+            numRatings: 0,
+            avgRating: 0,
+            totalRatings:0
         }
     );
-
+    console.log(song);
     song.save(function (err) {
         if (err) {
             return next(err);
@@ -64,21 +103,64 @@ exports.copyright = function (req, res){ //router.get('/api/admin/copyright'
 exports.songCreate = function (req,res){
     let song = new Song(
         {
-            title: req.body.title,
-            artist: req.body.artist,
-            album: req.body.album,
-            year: req.body.year,
-           // comment: req.body.comment,
-           genre: req.body.genre,
-            submittedBy: req.body.submittedBy,
-            submittedOn: req.body.submittedOn,
-            numRatings: req.body.numRatings,
-            avgRating: req.body.avgRating
-        }   
+            
+            hdr: "TAG",
+            title: sanitizeHtml(req.body.title,{
+                allowedTags:['&'],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            artist: sanitizeHtml(req.body.artist,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            album: sanitizeHtml(req.body.album,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            year: sanitizeHtml(req.body.year,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            comment: sanitizeHtml(req.body.commet,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            zeroByte: sanitizeHtml(req.body.zb,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            track: sanitizeHtml(req.body.track,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            genre: sanitizeHtml(req.body.genre,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            submittedBy: sanitizeHtml(req.body.submittedBy,{
+                allowedTags:[],
+                allowedAttributes:[],
+                allowedIframeHostnames:[]
+            }),
+            submittedOn: Date.now(),
+            numRatings: 0,
+            avgRating: 0,
+            totalRatings:0
+        }  
     );
+    console.log(song);
 
     song.save(function (err) {
         if(err) {
+            console.log(err);
             return next(err);
         }
         res.send("Song created Successfully")
@@ -129,6 +211,21 @@ exports.getSongs = function(req,res){
     //     if (err) return next(err);
     //     res.send(song);
     // })
+};
+
+exports.getAllSongs = function (req,res){
+
+    Song.find({},function(err,song) {
+        var songMap = [];//{};
+        song.forEach(function(song){
+            
+            //songMap[song._id] = song;
+            songMap.push(song);
+           // console.log(songMap[song._id]);
+        });
+        res.send(songMap); // send back all songs. 
+    });
+
 };
 
 exports.searchSongs = function(req,res){

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
 
 
@@ -10,6 +10,7 @@ import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform
   providedIn: 'root'
 })
 export class HttpService {
+  
 
   constructor(private http: HttpClient) { }
 
@@ -33,7 +34,12 @@ export class HttpService {
 
   getAllSongs(){
     console.log("inrequest");
-    return this.http.get(this.openUrl +"/song");
+    return this.http.get(this.openUrl +"/allsongs");
+  }
+
+  getTenSongs(){
+    console.log("get ten");
+    return this.http.get(this.openUrl +"/song")
   }
 
   getAllReviews(){
@@ -72,7 +78,10 @@ export class HttpService {
       password: _pword
     } ;
     let u = this.secureUrl + "/login"
-    return this.http.post(u,body);
+    let res;
+    res =this.http.post(u,body);
+     return res;
+     
 
   }
   registerUser(_email,_pword){
@@ -84,8 +93,42 @@ export class HttpService {
     
     let u = this.secureUrl + "/register";
     //console.log(u);
-    return this.http.post(u,body);
+    let res;
+    res = this.http.post(u,body);
+    console.log(res);
+    return res;
   }
 
-}
+  getCurrentUser(t,e,_id) {
+    let body = {
+      id: _id
+    };
+    // making and setting the access token header
+    let headers = new HttpHeaders();
+    console.log(t);
+    headers = headers.set('Authorization',t);
 
+    let u = this.secureUrl + "/current";
+    console.log("getting");
+    return this.http.post(u,body,{headers: headers});
+  }
+
+  makeSong(body,token){
+
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization',token);
+    let u = this.secureUrl + "/song";
+    console.log("making song");
+    console.log(token)
+    return this.http.post(u,body);//,{headers: headers});
+
+  }
+
+  makeReview(body,token){
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization',token);
+    let u = this.secureUrl +"/review";
+    console.log("making a review");
+    return this.http.post(u,body);
+  }
+}

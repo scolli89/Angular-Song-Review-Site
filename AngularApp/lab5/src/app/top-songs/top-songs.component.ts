@@ -23,7 +23,7 @@ export class TopSongsComponent implements OnInit {
     console.log(myGlobals.bob);
     //let songs;
     // call all songs from the 
-    this._http.getAllSongs().subscribe(data =>{
+    this._http.getTenSongs().subscribe(data =>{
       this.topSongs = data;//json();
       //console.log(this.topSongs);
       this.songs = this.topSongs;

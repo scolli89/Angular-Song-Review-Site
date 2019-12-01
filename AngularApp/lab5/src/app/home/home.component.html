@@ -22,29 +22,235 @@
         <button id = "rbtn" #rbtn (click)= "loginRegister(email,pword,false)">Register</button>
     </form>
 </div>
-
-
-
-
-
-
-<div class="play-container">
-    <p>You've clicked <span (click)="countClick()">this</span> {{ clickCounter }} times.</p>
-</div>
-
-<div class="play-container">
-    <p>
-        <input type="email"[(ngModel)]="name"><br>
-        <strong>You said:</strong> {{ name }}
-    </p>
-</div>
-
-<div class="play-container" [ngClass]="setClasses()">
-    <ng-template [ngIf]="clickCounter > 4" [ngIfElse]= "none">
-        <p>The click counter <strong> IS GREATER</strong> than 4.</p>
+<div>
+    <button (click) = "getUser()">get the current user</button>
+    <ng-template [ngIf]= "userActive == true">
+            <h5 #e id = "Error Line">for active users only</h5>
+            <button (click) = "createReview()">Create Review</button>
+            <button (click) = "createSong()">Create Song</button> <br>
     </ng-template>
+    <ng-template [ngIf]= "songMaker == true">
+        <input #title type = "text" id = "titleBar" placeholder = "Title, Required"><br>
+        <input #art type = "text" id = "artistBar" placeholder = "Artist, required"><br>
+        <input #alb type = "text" id = "albumBar" placeholder = "Album"><br>
+        <select #genreSelect id = "genreSelect" placeholder="Select Genre">
+        <option value='999'>Genres</option>
+        <option value='0'>Blues</option>
+        <option value='1'>Classic rock</option>
+        <option value='2'>Country</option>
+        <option value='3'>Dance</option>
+<option value='4'>Disco</option>
+<option value='5'>Funk</option>
+<option value='6'>Grunge</option>
+<option value='7'>Hip-Hop</option>
+<option value='8'>Jazz</option>
+<option value='9'>Metal</option>
+<option value='10'>New Age</option>
+<option value='11'>Oldies</option>
+<option value='12'>Other</option>
+<option value='13'>Pop</option>
+<option value='14'>Rhythm and Blues</option>
+<option value='15'>Rap</option>
+<option value='16'>Reggae</option>
+<option value='17'>Rock</option>
+<option value='18'>Techno</option>
+<option value='19'>Industrial</option>
+<option value='20'>Alternative</option>
+<option value='21'>Ska</option>
+<option value='22'>Death metal</option>
+<option value='23'>Pranks</option>
+<option value='24'>Soundtrack</option>
+<option value='25'>Euro-Techno</option>
+<option value='26'>Ambient</option>
+<option value='27'>Trip-Hop</option>
+<option value='28'>Vocal</option>
+<option value='29'>Jazz & Funk</option>
+<option value='30'>Fusion</option>
+<option value='31'>Trance</option>
+<option value='32'>Classical</option>
+<option value='33'>Instrumental</option>
+<option value='34'>Acid</option>
+<option value='35'>House</option>
+<option value='36'>Game</option>
+<option value='37'>Sound clip</option>
+<option value='38'>Gospel</option>
+<option value='39'>Noise</option>
+<option value='40'>Alternative Rock</option>
+<option value='41'>Bass</option>
+<option value='42'>Soul</option>
+<option value='43'>Punk</option>
+<option value='44'>Space</option>
+<option value='45'>Meditative</option>
+<option value='46'>Instrumental Pop</option>
+<option value='47'>Instrumental Rock</option>
+<option value='48'>Ethnic</option>
+<option value='49'>Gothic</option>
+<option value='50'>Darkwave</option>
+<option value='51'>Techno-Industrial</option>
+<option value='52'>Electronic</option>
+<option value='53'>Pop-Folk</option>
+<option value='54'>Eurodance</option>
+<option value='55'>Dream</option>
+<option value='56'>Southern Rock</option>
+<option value='57'>Comedy</option>
+<option value='58'>Cult</option>
+<option value='59'>Gangsta</option>
+<option value='60'>Top 40</option>
+<option value='61'>Christian Rap</option>
+<option value='62'>Pop/Funk</option>
+<option value='63'>Jungle</option>
+<option value='64'>Native US</option>
+<option value='65'>Cabaret</option>
+<option value='66'>New Wave</option>
+<option value='67'>Psychedelic</option>
+<option value='68'>Rave</option>
+<option value='69'>Show tunes</option>
+<option value='70'>Trailer</option>
+<option value='71'>Lo-Fi</option>
+<option value='72'>Tribal</option>
+<option value='73'>Acid Punk</option>
+<option value='74'>Acid Jazz</option>
+<option value='75'>Polka</option>
+<option value='76'>Retro</option>
+<option value='77'>Musical</option>
+<option value='78'>Rock ’n’ Roll</option>
+<option value='79'>Hard Rock</option>
+<option value='80'>Folk</option>
+<option value='81'>Folk-Rock</option>
+<option value='82'>National Folk</option>
+<option value='83'>Swing</option>
+<option value='84'>Fast Fusion</option>
+<option value='85'>Bebop</option>
+<option value='86'>Latin</option>
+<option value='87'>Revival</option>
+<option value='88'>Celtic</option>
+<option value='89'>Bluegrass</option>
+<option value='90'>Avantgarde</option>
+<option value='91'>Gothic Rock</option>
+<option value='92'>Progressive Rock</option>
+<option value='93'>Psychedelic Rock</option>
+<option value='94'>Symphonic Rock</option>
+<option value='95'>Slow rock</option>
+<option value='96'>Big Band</option>
+<option value='97'>Chorus</option>
+<option value='98'>Easy Listening</option>
+<option value='99'>Acoustic</option>
+<option value='100'>Humour</option>
+<option value='101'>Speech</option>
+<option value='102'>Chanson</option>
+<option value='103'>Opera</option>
+<option value='104'>Chamber music</option>
+<option value='105'>Sonata</option>
+<option value='106'>Symphony</option>
+<option value='107'>Booty bass</option>
+<option value='108'>Primus</option>
+<option value='109'>Porn groove</option>
+<option value='110'>Satire</option>
+<option value='111'>Slow jam</option>
+<option value='112'>Club</option>
+<option value='113'>Tango</option>
+<option value='114'>Samba</option>
+<option value='115'>Folklore</option>
+<option value='116'>Ballad</option>
+<option value='117'>Power ballad</option>
+<option value='118'>Rhythmic Soul</option>
+<option value='119'>Freestyle</option>
+<option value='120'>Duet</option>
+<option value='121'>Punk Rock</option>
+<option value='122'>Drum solo</option>
+<option value='123'>A cappella</option>
+<option value='124'>Euro-House</option>
+<option value='125'>Dance Hall</option>
+<option value='126'>Goa</option>
+<option value='127'>Drum & Bass</option>
+<option value='128'>Club-House</option>
+<option value='129'>Hardcore Techno</option>
+<option value='130'>Terror</option>
+<option value='131'>Indie</option>
+<option value='132'>BritPop</option>
+<option value='133'>Negerpunk</option>
+<option value='134'>Polsk Punk</option>
+<option value='135'>Beat</option>
+<option value='136'>Christian Gangsta Rap</option>
+<option value='137'>Heavy Metal</option>
+<option value='138'>Black Metal</option>
+<option value='139'>Crossover</option>
+<option value='140'>Contemporary Christian</option>
+<option value='141'>Christian rock</option>
+<option value='142'>Merengue</option>
+<option value='143'>Salsa</option>
+<option value='144'>Thrash Metal</option>
+<option value='145'>Anime</option>
+<option value='146'>Jpop</option>
+<option value='147'>Synthpop</option>
+<option value='148'>Abstract</option>
+<option value='149'>Art Rock</option>
+<option value='150'>Baroque</option>
+<option value='151'>Bhangra</option>
+<option value='152'>Big beat</option>
+<option value='153'>Breakbeat</option>
+<option value='154'>Chillout</option>
+<option value='155'>Downtempo</option>
+<option value='156'>Dub</option>
+<option value='157'>EBM</option>
+<option value='158'>Eclectic</option>
+<option value='159'>Electro</option>
+<option value='160'>Electroclash</option>
+<option value='161'>Emo</option>
+<option value='162'>Experimental</option>
+<option value='163'>Garage</option>
+<option value='164'>Global</option>
+<option value='165'>IDM</option>
+<option value='166'>Illbient</option>
+<option value='167'>Industro-Goth</option>
+<option value='168'>Jam Band</option>
+<option value='169'>Krautrock</option>
+<option value='170'>Leftfield</option>
+<option value='171'>Lounge</option>
+<option value='172'>Math Rock</option>
+<option value='173'>New Romantic</option>
+<option value='174'>Nu-Breakz</option>
+<option value='175'>Post-Punk</option>
+<option value='176'>Post-Rock</option>
+<option value='177'>Psytrance</option>
+<option value='178'>Shoegaze</option>
+<option value='179'>Space Rock</option>
+<option value='180'>Trop Rock</option>
+<option value='181'>World Music</option>
+<option value='182'>Neoclassical</option>
+<option value='183'>Audiobook</option>
+<option value='184'>Audio theatre</option>
+<option value='185'>Neue Deutsche Welle</option>
+<option value='186'>Podcast</option>
+<option value='187'>Indie-Rock</option>
+<option value='188'>G-Funk</option>
+<option value='189'>Dubstep</option>
+<option value='190'>Garage Rock</option>
+<option value='191'>Psybient</option>
 
-    <ng-template #none>
-        <p>the click counter is <strong>not greater</strong> than 4. </p>
+        </select> <br>
+        <input #yr type = "number" id = "Year" placeholder = "Year" min = "1990" max = "2020"><br>
+        <input #trk type ="number" id = "trackNo" placeholder ="Track Number" min = 0 ><br>
+        <input #cmm type = "text" id = "cmm" placeholder = "Short Comment" max =28><br>
+        <button  id = "crtBtn" (click) = "makeNewSong(title,art,alb,genreSelect,yr,trk,cmm)">Create Song!</button>
+    </ng-template>
+   
+    <ng-template [ngIf]='reviewMaker == true'>
+        <input #song type = "text" id = "reviewSong" placeholder = "Enter Song"><br>
+        <input #rate type = "number" id = "reviewRat" placeholder = "Enter Rating[0,5], default = 0"><br>
+        <input #rev type = "text" id = 'reviewText' placeholder = "Enter Review Text"><br>
+        <button #reviewBtn (click) = makeNewReview(song,rate,rev)>SUBMIT REVIEW</button>
+    </ng-template>
+    <ng-template [ngIf]= "errorMsg == 3">
+            <h5 #errLine id = "Error Line">Enter Valid Song, Try searching</h5>
+    </ng-template>
+    <ng-template [ngIf]= "errorMsg == 4">
+            <h5 #errLine id = "Error Line">Enter Valid Rating</h5>
+    </ng-template>
+    <ng-template [ngIf]= "errorMsg == 5">
+            <h5 #errLine id = "Error Line">No Title provided</h5>
+    </ng-template>
+    <ng-template [ngIf]= "errorMsg == 6">
+            <h5 #errLine id = "Error Line">No artistt Provided</h5>
     </ng-template>
 </div>

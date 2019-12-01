@@ -14,12 +14,12 @@ const song_controller = require('../controllers/song.controller');
 const review_controller = require('../controllers/review.controller');
 // Secure
 // this was a put, but i think it should be a post
-router.post('/song',song_controller.songCreate); // b. PUT /api/secure/song/ - save the JSON array for a song in the database and return the ID. 
+router.post('/song',auth,song_controller.songCreate); // b. PUT /api/secure/song/ - save the JSON array for a song in the database and return the ID. 
 //this was a post, but i think it should be a put
 router.put('/song/:id',song_controller.songUpdate);
 
 //reviews
-router.post('/addreview/',review_controller.createReview);//:id',review_controller.createReview);
+router.post('/review',auth,review_controller.createReview);//:id',review_controller.createReview);
 
 
 //for user registration and login
@@ -49,7 +49,27 @@ router.post("/login", async (req,res)=> {
                     email: req.body.email,
                     isAdmin: user.isAdmin
                 };
-                res.send(b);
+                // create the token
+                const token = user.generateAuthToken();
+                // add the token to the header. Read it on the other side immediatly
+                console.log ("token",token);
+                res.header("Access-Control-Expose-Headers", "Authorization");//"x-auth-token");
+                res.header("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-auth-token");
+                let w = res.getHeaders.toString;
+                
+                res.header("Authorization",token).send({
+                    _id: user._id,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    isDeactivated: user.isDeactivated,
+                    t:token
+                });
+
+
+
+
+
+               // res.send(b);
             } else{
                 //password didn't match 
                 res.send("Incorrect Email and Password");
@@ -58,10 +78,6 @@ router.post("/login", async (req,res)=> {
             console.log(err);
         }
     }
-        
-        
-
-
 });
 
 router.post("/register", async (req, res) => {
@@ -106,7 +122,8 @@ router.post("/register", async (req, res) => {
     });
 });
   
-router.get("/current", auth, async (req, res) => {
+router.post("/current", auth, async (req, res) => {
+    console.log("in /current");
     const user = await User.findById(req.user._id).select("-password");
     res.send(user);
 });

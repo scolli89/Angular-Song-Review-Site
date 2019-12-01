@@ -1,5 +1,6 @@
 const Review = require('../models/review.model');
-
+const sanitizeHtml = require('sanitize-html');
+const Song = require('../models/song.model');
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
     res.send('Greetings from the Review Test controller!');
@@ -92,14 +93,56 @@ exports.getSongs = function(req,res){
 
 
 
-exports.createReview= function (req,res){
+exports.createReview= async function (req,res){
+    console.log("Email: ",req.body.submittedBy);
     let review = new Review({
-        songId: req.body.songId,
-        submittedBy: req.body.submittedBy,
-        submittedOn: req.body.submittedOn,
-        comment: req.body.comment,
-        rating: req.body.rating
+
+        songId: sanitizeHtml(req.body.songId,{
+            allowedTags:[],
+            allowedAttributes:[],
+            allowedIframeHostnames:[]
+        }),
+        submittedBy: sanitizeHtml(req.body.submittedBy,{
+            allowedTags:[],
+            allowedAttributes:[],
+            allowedIframeHostnames:[]
+        }),
+    
+        submittedOn: Date.now(),
+        comment: sanitizeHtml(req.body.comment,{
+            allowedTags:[],
+            allowedAttributes:[],
+            allowedIframeHostnames:[]
+        }),
+        rating: sanitizeHtml(req.body.rating,{
+            allowedTags:[],
+            allowedAttributes:[],
+            allowedIframeHostnames:[]
+        })
     });
+
+    //console.log(review);
+    // increment by 1, because 1 more rating
+    console.log("number: ", req.body.theSong.numRatings );
+    let num = req.body.theSong.numRatings + 1;
+    console.log("number: ",num);
+    //add the 
+    let total = req.body.theSong.totalRating + review.rating;
+    
+    req.body.theSong.avgRating = total/num;
+    req.body.theSong.numRatings = num;
+    req.body.theSong.totalRating = total;
+    console.log(req.body.theSong.numRating);
+
+    await Song.findByIdAndUpdate(req.body.theSong._id, {$set: req.body.theSong}, function (err, song) {
+        if (err) {
+            console.log(err);
+            return;}
+
+        //res.send('Song udpated.');
+    });
+    
+
     review.save(function (err){
         if(err) {
             return next(err);
