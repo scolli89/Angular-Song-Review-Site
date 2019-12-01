@@ -3,7 +3,9 @@ const router = express.Router();
 
 const sanitizeHtml = require('sanitize-html');
 const auth = require("../middleware/auth");
-const bcrypt = require("bcrypt");
+
+const bcrypt = require("bcrypt"); // outdated
+const argon2 = require('argon2');
 const { User, validate } = require("../models/user.model");
 
 
@@ -39,25 +41,27 @@ router.post("/login", async (req,res)=> {
     } else{
         //need to now check the password
         
-        await bcrypt.compare(req.body.password, user.password,function(err,r){
-            console.log(r);
-            if(r){
+        try {
+            if(await argon2.verify(user.password,req.body.password)){
+                //password match
+                console.log("match");
                 let b = {
                     email: req.body.email,
                     isAdmin: user.isAdmin
-            };
-            res.send(b);
+                };
+                res.send(b);
             } else{
+                //password didn't match 
                 res.send("Incorrect Email and Password");
             }
-          
-
-        });
-        
-        
-
-
+        } catch(err){
+            console.log(err);
+        }
     }
+        
+        
+
+
 });
 
 router.post("/register", async (req, res) => {
@@ -85,7 +89,12 @@ router.post("/register", async (req, res) => {
       isAdmin: false,
       isDeactivated: false
     });
-    user.password = await bcrypt.hash(user.password, 10);// encoding the password
+    try {
+        user.password = await argon2.hash(user.password);
+    } catch (err) {
+        //...
+    }
+    //user.password = await bcrypt.hash(user.password, 10);// encoding the password
     await user.save();
   
     const token = user.generateAuthToken();
@@ -101,7 +110,5 @@ router.get("/current", auth, async (req, res) => {
     const user = await User.findById(req.user._id).select("-password");
     res.send(user);
 });
-
-
 
 module.exports = router;
