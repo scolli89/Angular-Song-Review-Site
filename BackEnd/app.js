@@ -22,7 +22,7 @@ if(!config.get("myprivatekey")){
 
 app.use(function(req, res, next) { // for cores ersuests
 
-    res.header("Access-Control-Allow-Origin","*"); //"http://localhost:4200");
+    res.header("Access-Control-Allow-Origin","http://localhost:4200"); //"http://localhost:4200");
   
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     // this might fix it

@@ -18,13 +18,15 @@ export class HomeComponent implements AfterViewInit {
     isAdmin: Boolean,
     isDeactivated: Boolean
   }
+  errorMsg: number = 0;
+  
   clickCounter: number = 0;
   name: string = '';
   aUser: any;
   @ViewChild('loginLine',{static:false}) loginLine: ElementRef;
   @ViewChild('emailAddress',{static:false}) emailIn: ElementRef;
   @ViewChild('pword',{static:false}) pwIn: ElementRef;
-
+  @ViewChild('Error Line',{static:false}) errHead: ElementRef;
   constructor(private http: HttpService) { }
 
   ngOnInit() {
@@ -96,13 +98,14 @@ export class HomeComponent implements AfterViewInit {
       this.http.loginUser(e.value,p.value).subscribe(
         response=> {
           this.aUser = response;
-          console.log(response);
-
+          console.log(this.aUser);
 
         },
         error => {
-          console.log('oh no');
-        },
+          console.log(error.error.text);
+          this.errorLineShow(error.error.text);
+          
+          },
         () => {
           console.log("ALWAYSHAPPENS");
         });
@@ -117,13 +120,22 @@ export class HomeComponent implements AfterViewInit {
           console.log(response);
         },
         error => {
-          console.log(error);
+          console.log(error.error);
         }
       )
     }
    
   }
 
+  errorLineShow(msg){
+    if (msg == "Incorrect Email and Password"){
+      this.errorMsg = 1;
+    } else if(msg == "Your account has been deactivated. Contact admin at ---@admin.com"){
+      this.errorMsg = 2;
+    } else {
+      this.errorMsg = 0;
+    }
+  }
 
 
 }

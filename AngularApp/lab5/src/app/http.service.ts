@@ -71,7 +71,7 @@ export class HttpService {
       email: _email,
       password: _pword
     } ;
-    let u = this.secureUrl + "/secure/login"
+    let u = this.secureUrl + "/login"
     return this.http.post(u,body);
 
   }
@@ -83,7 +83,7 @@ export class HttpService {
     };
     
     let u = this.secureUrl + "/register";
-    console.log(u);
+    //console.log(u);
     return this.http.post(u,body);
   }
 

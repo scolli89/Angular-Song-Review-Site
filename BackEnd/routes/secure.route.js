@@ -26,35 +26,39 @@ router.post("/login", async (req,res)=> {
     // login failed
     // login succeeded
     //login a deactivated account.
-    console.log(user);
+    console.log('in /login');
     let user = await User.findOne({ email: req.body.email });
-    
+    console.log("db: ", user,"req: ",req.body);
     // check the response
     if (user == null){
         // user doesnt exist.
-        res.send("Incorrect Email and Password Combo");
+        res.send("Incorrect Email and Password");
     } else if (user.isDeactivated == true){
         // the users account is deactivated. they do not login 
         res.send("Your account has been deactivated. Contact admin at ---@admin.com");
     } else{
         //need to now check the password
-     
+        
+        await bcrypt.compare(req.body.password, user.password,function(err,r){
+            console.log(r);
+            if(r){
+                let b = {
+                    email: req.body.email,
+                    isAdmin: user.isAdmin
+            };
+            res.send(b);
+            } else{
+                res.send("Incorrect Email and Password");
+            }
+          
+
+        });
+        
+        
 
 
     }
-
-
-
 });
-
-
-title: trim(sanitizeHtml(req.body.title, {
-    allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
-    allowedAttributes: [],
-    allowedIframeHostnames: []
-  })),
-
-
 
 router.post("/register", async (req, res) => {
     console.log("in /register");
@@ -64,7 +68,7 @@ router.post("/register", async (req, res) => {
   
     //find an existing user
     let user = await User.findOne({ email: req.body.email });
-    
+    console.log(user);
     if (user) return res.status(400).send("User already registered.");
   
     user = new User({

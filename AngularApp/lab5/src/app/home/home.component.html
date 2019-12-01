@@ -7,8 +7,15 @@
     <button id = "Login Button" (click) = "makeLogin(email,pword,LHead,RHead,lbtn,rbtn,true)">Login!</button> 
     <button id ="regBtn"(click) = "makeLogin(email,pword,LHead,RHead,lbtn,rbtn,false)">Register!</button><br>
     <form>
-        <h2 #LHead id = "LHead"> USER LOGIN</h2><br>
-        <h2 #RHead id = "RHead"> USER REGISTER</h2><br>
+        <ng-template [ngIf]= "errorMsg == 1">
+            <h5 #errLine id = "Error Line">Incorrect Email and Password</h5>
+        </ng-template>
+        <ng-template [ngIf]= "errorMsg == 2">
+                <h5 #errLine id = "Error Line">Your account has been deactivated. Contact admin at ---@admin.com</h5>
+        </ng-template>
+        
+        <h6 #LHead id = "LHead"> USER LOGIN</h6><br>
+        <h6 #RHead id = "RHead"> USER REGISTER</h6><br>
         <input id = "email" type = email #email placeholder = "email"  > <br>
         <input id = "pword" type = password #pword placeholder = "password" > <br>
         <button id = "lbtn" #lbtn (click) = "loginRegister(email,pword,true)">Login</button>
