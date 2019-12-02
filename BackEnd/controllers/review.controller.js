@@ -127,12 +127,13 @@ exports.createReview= async function (req,res){
     let num = req.body.theSong.numRatings + 1;
     console.log("number: ",num);
     //add the 
+    console.log(req.body.theSong.totalRating,review.rating);
     let total = req.body.theSong.totalRating + review.rating;
     
     req.body.theSong.avgRating = total/num;
     req.body.theSong.numRatings = num;
     req.body.theSong.totalRating = total;
-    console.log(req.body.theSong.numRating);
+    console.log(req.body.theSong);
 
     await Song.findByIdAndUpdate(req.body.theSong._id, {$set: req.body.theSong}, function (err, song) {
         if (err) {

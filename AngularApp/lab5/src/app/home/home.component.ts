@@ -131,6 +131,7 @@ export class HomeComponent implements AfterViewInit {
           this.theToken = response.t;
           this.userActive = true;
           console.log(this.aUser);
+          this.errorLineShow(0);
          // console.log(response.header.get('x-access-token'));
         },
         error => {
@@ -142,10 +143,7 @@ export class HomeComponent implements AfterViewInit {
           this.songMaker = false;
           this.reviewMaker = false;
           
-          },
-        () => {
-          console.log("ALWAYSHAPPENS");
-        });
+          });
 
     } else{//registering
       console.log(e.value,p.value);
@@ -169,6 +167,7 @@ export class HomeComponent implements AfterViewInit {
   createSong(){
     console.log("create Song");
     //making the text areas visible. 
+    this.errorLineShow(0);
     if(this.songMaker) {
       this.songMaker = false;
       return;
@@ -188,7 +187,7 @@ export class HomeComponent implements AfterViewInit {
   }
   createReview(){
     console.log("create reivew");
-    
+    this.errorLineShow(0);
     if(this.reviewMaker) {
       this.reviewMaker = false;
       return;
@@ -278,10 +277,13 @@ export class HomeComponent implements AfterViewInit {
     return this.http.makeSong(body,this.theToken).subscribe(
       response => {
         console.log(response);
-
+        this.errorLineShow(0);
+        this.songMaker = false;
       },
       error =>{
         console.log(error);
+        this.errorLineShow(0);
+        this.songMaker = false;
       }
     );
 
@@ -332,9 +334,13 @@ export class HomeComponent implements AfterViewInit {
     return this.http.makeReview(body,this.theToken).subscribe(
       response => {
         console.log(response);
+        this.reviewMaker = false;
+        this.errorLineShow(0);
       },
       error => {
         console.log(error);
+        this.reviewMaker = false;
+        this.errorLineShow(0);
       }
     )
 

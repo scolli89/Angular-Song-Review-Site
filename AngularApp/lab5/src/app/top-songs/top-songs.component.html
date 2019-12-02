@@ -1,12 +1,12 @@
 
-<h1 id = "rt" >Top Songs </h1>
+<h1 id = "rt" >Top Songs by Average Rating</h1>
 <div>
  
   <ul *ngIf="topSongs">  
     <li *ngFor="let song of topSongs; let i = index">
       <p class="title">{{ i+1 }}. Song: {{ song.title }}</p>
       <p class="artist">Artist: {{ song.artist }}</p>
-      <p class="avgRating">Rating: {{ song.avgRating }}</p>
+      <p class="avgRating">Average Rating: {{ song.avgRating }}</p>
 
       <button id ="btn{{song._id}}" class ="info button" (click)="infoClick()">more info</button>
         <ng-template [ngIf]="infoClicked%2 ==1" [ngIfElse]= "none">
@@ -15,7 +15,9 @@
           <p>Genre: {{ song.genre}} </p>
           <p>Submitted By: {{ song.submittedBy}} </p>
           <p>Submitted On: {{ song.submittedOn}} </p>
-          <p># of Ratings: {{ song.numRatings}} </p>
+          <p># of Reviews: {{ song.numRatings}} </p>
+          <p>Comment: {{song.comment}}</p>
+          <p>Track #: {{song.track}}</p>
         </ng-template>
     </li>
   </ul>

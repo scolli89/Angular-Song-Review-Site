@@ -18,7 +18,7 @@
             <h5 #errLine id = "Error Line">Incorrect Email and Password</h5>
         </ng-template>
         <ng-template [ngIf]= "errorMsg == 2">
-                <h5 #errLine id = "Error Line">Your account has been deactivated. Contact admin at ---@admin.com</h5>
+                <h5 #errLine id = "Error Line">Your account has been deactivated. Contact admin at scolli89@uwo.ca</h5>
         </ng-template>
         <ng-template [ngIf]= "errorMsg == 9">
                         <h5 #errLine id = "Error Line">USER ALREADY REGISTERED</h5>
@@ -60,8 +60,8 @@
     <button (click) = "getUser()">get the current user</button>
     <ng-template [ngIf]= "userActive == true">
             <h5 #e id = "Error Line">for active users only</h5>
-            <button (click) = "createReview()">Create Review</button>
-            <button (click) = "createSong()">Create Song</button> <br>
+            <button (click) = "createReview()">Add Review</button>
+            <button (click) = "createSong()">Add Song</button> <br>
     </ng-template>
     <ng-template [ngIf]= "songMaker == true">
         <input #title type = "text" id = "titleBar" placeholder = "Title, Required"><br>
