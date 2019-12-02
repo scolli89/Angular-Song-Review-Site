@@ -18,20 +18,26 @@ export class HomeComponent implements AfterViewInit {
     isAdmin: Boolean,
     isDeactivated: Boolean
   }
+  // used to control the html error messages
   errorMsg: number = 0;
+  //reference of the authentication token
   theToken: any;
-  clickCounter: number = 0;
+  clickCounter: number = 0; 
   name: string = '';
   aUser: any;
+  // for the administrator to check if the name entereed is valid
   allUsers: any =[];
+  // state variables
   userAdmin: boolean = false;
   userActive: boolean = false;
   userSettingsBool: boolean = false;
   
   songMaker: boolean = false;
   reviewMaker: boolean = false;
+  //all the songs in the data base
   allSongs: any =[];
 
+  // discontinued for the most part. I could not get them to work the way that i wanted them to.
   @ViewChild('loginLine',{static:false}) loginLine: ElementRef;
   @ViewChild('emailAddress',{static:false}) emailIn: ElementRef;
   @ViewChild('pword',{static:false}) pwIn: ElementRef;
@@ -50,7 +56,7 @@ export class HomeComponent implements AfterViewInit {
 
   }
   ngAfterViewInit(){
-
+// need to impllement
   }
 
   countClick(){
@@ -68,6 +74,9 @@ export class HomeComponent implements AfterViewInit {
   makeLogin(e,p,l,r,lb,rb,lgn){
     
     //login button pushed
+    //  turns on the relevent fields.
+    //depending on if the log in button or the register button was pushed, the 
+    // displayed element will be different. 
       if (e.style.display === "none") {
         e.style.display = "inline";
       } else {
@@ -98,12 +107,16 @@ export class HomeComponent implements AfterViewInit {
 
   loginRegister(e,p,lgn){
 
+    // used to check if the person is logging in or registering based of the 
+    //lgn value passed from the html doc.
+    // initial email validation
     if (e.value.indexOf("@") == -1 ||e.value.indexOf(".") == -1 || e.value.length <= 5 ){ // email validation 
       console.log("invalid email");
       e.value = "";
       e.placeholder = "ENTER VALID EMAIL";
       return;
     }  
+    //password checking
     if (p.value.length <= 2){
       console.log("enter password");
       p.value = "";
@@ -165,7 +178,7 @@ export class HomeComponent implements AfterViewInit {
    
   }
   createSong(){
-    console.log("create Song");
+    
     //making the text areas visible. 
     this.errorLineShow(0);
     if(this.songMaker) {
@@ -175,7 +188,7 @@ export class HomeComponent implements AfterViewInit {
     this.songMaker = true;
     if(this.reviewMaker) this.reviewMaker = false;
 
-
+    
     this.http.getCurrentUser(this.theToken,this.aUser.email,this.aUser._id).subscribe(
       response => {
         console.log(response);
@@ -186,6 +199,7 @@ export class HomeComponent implements AfterViewInit {
     )
   }
   createReview(){
+    // hides other elemetns and shows the review elements
     console.log("create reivew");
     this.errorLineShow(0);
     if(this.reviewMaker) {
@@ -197,6 +211,9 @@ export class HomeComponent implements AfterViewInit {
   }
 
   errorLineShow(msg){
+    //this is used to control the error messages displayed on the html page.
+    // 0 resets,
+    // specific messages sets the state variable which displays the revelvant message.
     if (msg == "Incorrect Email and Password"){
       this.errorMsg = 1;
       this.userActive = false;
@@ -237,7 +254,7 @@ export class HomeComponent implements AfterViewInit {
   }
  
   makeNewSong(ttl,art,alb,gr,yr,trck,cmm){
-
+    // used to create a new sng
     console.log("IN MAKE NEW SONG()");
     let _title = ttl.value;
     let _artist = art.value;
@@ -347,6 +364,7 @@ export class HomeComponent implements AfterViewInit {
 
   }
   makeChangeSettings(){
+    //displayssome admin functions
     this.userSettingsBool = (! this.userSettingsBool);
     if(this.userSettingsBool){
       //get all the users.
@@ -355,6 +373,7 @@ export class HomeComponent implements AfterViewInit {
     }
   }
   ChangeUserSettings(user,a,d){
+    //allows the admin to make other administartors or deactive current accounts
     this.errorLineShow("")
     this.userSettingsBool = (! this.userSettingsBool);
     if(user.value == "") return this.errorLineShow("no user");

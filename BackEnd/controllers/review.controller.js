@@ -1,11 +1,12 @@
 const Review = require('../models/review.model');
 const sanitizeHtml = require('sanitize-html');
 const Song = require('../models/song.model');
-//Simple version, without validation or sanitation
+//Simple version, 
 exports.test = function (req, res) {
     res.send('Greetings from the Review Test controller!');
 };
 
+// used to get all the reviews of a song
 exports.getReviewsOfSong = function(req, res){ // gets all the reviews of a song
     Review.find({},function(err,review){
         var reviewMap = [];
@@ -73,6 +74,7 @@ exports.getRecentReviews = function (req,res){
     });
 }
 
+// not used in this section 
 exports.getSongs = function(req,res){
     
     Song.find({},function(err,song) {
@@ -96,7 +98,7 @@ exports.getSongs = function(req,res){
 exports.createReview= async function (req,res){
     console.log("Email: ",req.body.submittedBy);
     let review = new Review({
-
+        //sanitze html
         songId: sanitizeHtml(req.body.songId,{
             allowedTags:[],
             allowedAttributes:[],
@@ -129,12 +131,12 @@ exports.createReview= async function (req,res){
     //add the 
     console.log(req.body.theSong.totalRating,review.rating);
     let total = req.body.theSong.totalRating + review.rating;
-    
+    //update the statistics
     req.body.theSong.avgRating = total/num;
     req.body.theSong.numRatings = num;
     req.body.theSong.totalRating = total;
     console.log(req.body.theSong);
-
+    //update the songs stats
     await Song.findByIdAndUpdate(req.body.theSong._id, {$set: req.body.theSong}, function (err, song) {
         if (err) {
             console.log(err);
@@ -143,7 +145,7 @@ exports.createReview= async function (req,res){
         //res.send('Song udpated.');
     });
     
-
+    //save the new review
     review.save(function (err){
         if(err) {
             return next(err);

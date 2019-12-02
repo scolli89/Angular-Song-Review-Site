@@ -51,18 +51,8 @@ app.use('/api/open',opn);
 app.use('/api/secure',secr);
 app.use('/api/admin',adm);
 
-let port = process.env.PORT || 8080;
+let port = process.env.PORT || 8080; // default to whateveerr the envrionemnt allows or 8080
 app.listen(port, () => {
     console.log('Server is running on port: ' + port);
 });
-
-
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://someuser:aTQILLzaSgd2lvOj@clusterlab5-9p81c.mongodb.net/test?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
-// });
 

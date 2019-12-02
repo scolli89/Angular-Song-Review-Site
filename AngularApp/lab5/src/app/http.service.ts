@@ -15,13 +15,10 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   //baseUrl
+  // specific ends will be used within the function. s
   openUrl: string = 'http://localhost:8080/api/open';
   secureUrl: string = 'http://localhost:8080/api/secure';
   adminUrl: string = 'http://localhost:8080/api/admin';
-
-  url: string = '/songs/open/song';
-  searchUrl: string = '/songs/open/search';
-  reviewUrl: string = '/review/open/reviews';
 
 
   getbeer() {
@@ -32,22 +29,22 @@ export class HttpService {
     return console.log("hi");
   }
 
-  getAllSongs(){
+  getAllSongs(){ // returns all the songs when needed
     console.log("inrequest");
     return this.http.get(this.openUrl +"/allsongs");
   }
 
-  getTenSongs(){
+  getTenSongs(){ // for the top ten songs
     console.log("get ten");
     return this.http.get(this.openUrl +"/song")
   }
 
-  getAllReviews(){
+  getAllReviews(){ // returns all reviews so that it can pick the most recent for the top ten songs
     console.log('in get all reviews');
     return this.http.get( this.openUrl + '/reviews');
   }
 
-  getReviewsOfSong(sid){
+  getReviewsOfSong(sid){ // get all reviews of a song to display for the top search result.
     console.log(sid);
     console.log("All reviews for: "+ sid);
     let body = {
@@ -56,11 +53,12 @@ export class HttpService {
     let u = this.openUrl +'/reviews';
     return this.http.post(u,body);
   }
-  getSongSearch(rate,ttl,art,alb,grn,yr){
+  getSongSearch(rate,ttl,art,alb,grn,yr){ // search the song 
     //console.log(rate+ ttl + art+ alb + ""+grn+"" + yr);
     let u = this.openUrl + '/song';
     console.log("Searching for songs");
     console.log(rate,art,alb,grn,yr);
+    // this was added later for the keyword based search
     if (rate == 0 && art == 0 && alb == 0 && grn == 0 && yr == 0){
       // then this is a search by keywords.
       let body ={
@@ -69,6 +67,7 @@ export class HttpService {
       console.log(body);
       return this.http.post(u,body);
     }
+    //this was the initial attempt to search
     let body = {
       title: ttl,
       artist: art,

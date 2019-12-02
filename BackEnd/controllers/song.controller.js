@@ -1,6 +1,9 @@
 const Song = require('../models/song.model');
 var stringSimilarity = require('string-similarity');
 const sanitizeHtml = require('sanitize-html');
+
+
+// NOT REALLY USED
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
     res.send('Greetings from the Test controller!');
@@ -90,10 +93,11 @@ exports.song_details = function (req, res) {
         res.send(song);
     })
 };
-
+/// NOT REALLY USE ^^^^
 
 
 //admin:
+//not implemented
 exports.copyright = function (req, res){ //router.get('/api/admin/copyright'
     res.send("This is the copyright command");
 };
@@ -166,7 +170,7 @@ exports.songCreate = function (req,res){
         res.send("Song created Successfully")
     })
 };
-
+//not really used
 exports.songUpdate = function (req, res) {
     Song.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, song) {
         if (err) return next(err);
@@ -174,6 +178,7 @@ exports.songUpdate = function (req, res) {
     });
 };
 
+// get the top ten songs
 exports.getSongs = function(req,res){
     
     Song.find({},function(err,song) {
@@ -190,7 +195,7 @@ exports.getSongs = function(req,res){
         //find top ten songs.
         var x = []; // what we will end up sending
         var y = []; 
-        // sort the array 
+        // sort the array from biggest to smallest
         songMap.sort(function(a,b){return b.avgRating - a.avgRating });
         for(i = 0; i <songMap.length;i++){
             console.log(songMap[i].avgRating);
@@ -212,7 +217,7 @@ exports.getSongs = function(req,res){
     //     res.send(song);
     // })
 };
-
+//get all the songs
 exports.getAllSongs = function (req,res){
 
     Song.find({},function(err,song) {
@@ -227,7 +232,7 @@ exports.getAllSongs = function (req,res){
     });
 
 };
-
+// search for songs
 exports.searchSongs = function(req,res){
     Song.find({},function(err,song){
         var songMap = []; // all the songs. 
@@ -298,7 +303,7 @@ exports.searchSongs = function(req,res){
                         console.log(Math.abs(Number(songMap[i].year) - Number(words[i]) ));
                         console.log(Math.abs(Number(songMap[i].avgRating) - Number(words[i])));
 
-                        x.push(songMap[i]);
+                        x.push(songMap[i]); // add to the sending array
                     }
 
 
@@ -416,8 +421,8 @@ exports.searchSongs = function(req,res){
 
         }
 
-        console.log("CHECKING FOR DUPLICATES");
-            for(var i = 0; i< x.length ; i++){ // value to compare
+        //console.log("CHECKING FOR DUPLICATES");
+        for(var i = 0; i< x.length ; i++){ // value to compare
                 for(var j = 0; j <x.length ; j++){
                     if(x[i] == x[j] && i != j){
                         console.log(i + " " +x[i].title)
@@ -427,11 +432,11 @@ exports.searchSongs = function(req,res){
                     }
                 }
 
-            }
+        }
 
         
         res.send(x);
-        });
+    });
 }
     
  

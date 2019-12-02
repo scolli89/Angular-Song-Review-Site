@@ -81,6 +81,7 @@ export class SearchsongComponent implements AfterViewInit{// implements OnInit {
   };
 
   searchByKeyword(kword){
+    //searching by the key word
     let w = kword.value;
     console.log(w);
     if(w == "" ){

@@ -7,6 +7,7 @@ exports.test = function (req, res) {
 };
 
 // open
+// this function is not really used. 
 exports.create_account = function (req,res){
     let account =new Account(
         {
@@ -27,6 +28,7 @@ exports.create_account = function (req,res){
 
 
 //admin:
+//this funciton is used to change admin and deactivate privaleges
 exports.changeUserSettings = function (req,res){ // /api/admin/deactivate/:id
     
     
@@ -37,6 +39,7 @@ exports.changeUserSettings = function (req,res){ // /api/admin/deactivate/:id
     console.log(req.body.givenAdmin,req.body.givenDeactive);
     console.log(req.body.isAdmin,req.body.isDeactived)
     let b;
+    //check what is being asked to be changed. 
     if (req.body.givenAdmin && req.body.givenDeactive){
         b={
             isAdmin: req.body.isAdmin,
@@ -65,11 +68,13 @@ exports.changeUserSettings = function (req,res){ // /api/admin/deactivate/:id
     });
 };
 
+//returns all user data sans password
 exports.getAllUsers = function (req,res){
 
     User.find({},function(err,user) {
         var userMap = [];//{};
         user.forEach(function(user){
+            //don;t send the password
             user.password = null;
             //songMap[song._id] = song;
             userMap.push(user);
