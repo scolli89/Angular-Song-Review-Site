@@ -1,6 +1,6 @@
 
 const Account = require('../models/account.model');
-
+const { User, validate } = require("../models/user.model");
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
     res.send('Greetings from the Account Test controller!');
@@ -27,10 +27,55 @@ exports.create_account = function (req,res){
 
 
 //admin:
-exports.deactivate = function (req,res){ // /api/admin/deactivate/:id
-    Account.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err,account){
+exports.changeUserSettings = function (req,res){ // /api/admin/deactivate/:id
+    
+    
+    
+    
+    
+    let id = req.body.userId;
+    console.log(req.body.givenAdmin,req.body.givenDeactive);
+    console.log(req.body.isAdmin,req.body.isDeactived)
+    let b;
+    if (req.body.givenAdmin && req.body.givenDeactive){
+        b={
+            isAdmin: req.body.isAdmin,
+            isDeactivated: req.body.isDeactived
+        };
+        console.log("in true true");
+    } else if(req.body.givenAdmin && !req.body.givenDeactive){
+        b={
+            isAdmin: req.body.isAdmin
+           
+        };
+    } else if(!req.body.givernAdmin && req.body.givenDeactive){
+        b={
+           
+            isDeactivated: req.body.isDeactived
+        };
+    } else if(!req.body.givernAdmin && !req.body.givenDeactive){
+        // no changes 
+        return "no changes to be made";
+    }
+    console.log("body",b);
+    console.log(req.body.userId);
+    User.findByIdAndUpdate(req.body.userId, {$set: b}, function (err,account){
         if(err) return next (err);
-        res.send('Account deactived');
+        res.send('Account Updated');
     });
 };
 
+exports.getAllUsers = function (req,res){
+
+    User.find({},function(err,user) {
+        var userMap = [];//{};
+        user.forEach(function(user){
+            user.password = null;
+            //songMap[song._id] = song;
+            userMap.push(user);
+           // console.log(songMap[song._id]);
+        });
+        res.send(userMap); // send back all songs. 
+    });
+
+};

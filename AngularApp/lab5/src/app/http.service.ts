@@ -122,6 +122,7 @@ export class HttpService {
     console.log("getting");
     return this.http.post(u,body,{headers: headers});
   }
+  
 
   makeSong(body,token){
 
@@ -140,5 +141,22 @@ export class HttpService {
     let u = this.secureUrl +"/review";
     console.log("making a review");
     return this.http.post(u,body);
+  }
+
+  modifyUser(body){
+    console.log("in modify users: ",body);
+    
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization',body.token);
+    let u = this.adminUrl + "/users";
+    return this.http.put(u,body);
+  }
+  getallUsers(body:any){
+    console.log(body);
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization',body.token);
+    let u = this.adminUrl + "/users";
+    return this.http.post(u,body);
+
   }
 }

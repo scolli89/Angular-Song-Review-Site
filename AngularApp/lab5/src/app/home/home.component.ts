@@ -23,6 +23,7 @@ export class HomeComponent implements AfterViewInit {
   clickCounter: number = 0;
   name: string = '';
   aUser: any;
+  allUsers: any =[];
   userAdmin: boolean = false;
   userActive: boolean = false;
   userSettingsBool: boolean = false;
@@ -102,7 +103,12 @@ export class HomeComponent implements AfterViewInit {
       e.value = "";
       e.placeholder = "ENTER VALID EMAIL";
       return;
-    } 
+    }  
+    if (p.value.length <= 2){
+      console.log("enter password");
+      p.value = "";
+      p.placeholder = "enter password";
+    }
     // check value of the lgn variable. 
     // if 1, it will 
     // if 0, it will allow th euser to register 
@@ -130,6 +136,11 @@ export class HomeComponent implements AfterViewInit {
         error => {
           console.log(error.error.text);
           this.errorLineShow(error.error.text);
+          this.userActive = false;
+          this.userAdmin = false;
+          this.userSettingsBool = false;
+          this.songMaker = false;
+          this.reviewMaker = false;
           
           },
         () => {
@@ -141,12 +152,15 @@ export class HomeComponent implements AfterViewInit {
       //sending the registration request
       this.http.registerUser(e.value,p.value).subscribe(
         response => {
-          this.aUser = response;
+          //this.aUser = response;
+          //this.userActive = true;
           //log in those who just registered
           console.log(response);
         },
         error => {
           console.log(error.error);
+          this.errorLineShow("already registered");
+
         }
       )
     }
@@ -186,8 +200,18 @@ export class HomeComponent implements AfterViewInit {
   errorLineShow(msg){
     if (msg == "Incorrect Email and Password"){
       this.errorMsg = 1;
+      this.userActive = false;
+          this.userAdmin = false;
+          this.userSettingsBool = false;
+          this.songMaker = false;
+          this.reviewMaker = false;
     } else if(msg == "Your account has been deactivated. Contact admin at ---@admin.com"){
       this.errorMsg = 2;
+      this.userActive = false;
+          this.userAdmin = false;
+          this.userSettingsBool = false;
+          this.songMaker = false;
+          this.reviewMaker = false;
     } else if(msg == "Invalid Song"){
       this.errorMsg = 3;
     } else if(msg == "Invalid Rating"){
@@ -196,6 +220,12 @@ export class HomeComponent implements AfterViewInit {
       this.errorMsg = 5;
     } else if(msg == "no artist"){
       this.errorMsg = 6;
+    }else if(msg == "no change"){
+      this.errorMsg = 7;
+    }else if(msg == "no user"){
+      this.errorMsg = 8;
+    } else if (msg == "already registered"){
+      this.errorMsg = 9;
     }
     
     else {
@@ -204,6 +234,7 @@ export class HomeComponent implements AfterViewInit {
   }
   getUser(){
     console.log(this.aUser.email);
+    console.log(this.theToken);
   }
  
   makeNewSong(ttl,art,alb,gr,yr,trck,cmm){
@@ -239,7 +270,8 @@ export class HomeComponent implements AfterViewInit {
       track: _track,
       genre: _genre,
       zb: _zb,
-      submittedBy: this.aUser.email
+      submittedBy: this.aUser.email,
+      token:this.theToken
     };
     console.log("body: ", body);
     if (this.theToken == null) return "ERROR no token";
@@ -310,7 +342,79 @@ export class HomeComponent implements AfterViewInit {
   }
   makeChangeSettings(){
     this.userSettingsBool = (! this.userSettingsBool);
+    if(this.userSettingsBool){
+      //get all the users.
 
+      this.getAllUser();
+    }
+  }
+  ChangeUserSettings(user,a,d){
+    this.errorLineShow("")
+    this.userSettingsBool = (! this.userSettingsBool);
+    if(user.value == "") return this.errorLineShow("no user");
+    console.log(user.value,a.value,d.value);
+    // setting the intial body to be sent 
+    // check for a match, 
+    let foundUser = -1
+    for (var i = 0 ; i < this.allUsers.length;i++){
+      if(user.value == this.allUsers[i].email){
+        foundUser = i;
+      }
+    }
+  
+    if (foundUser < 0) return this.errorLineShow("no user");
+
+    let body = {
+      userId:this.allUsers[foundUser]._id,
+      isAdmin: false,
+      givenAdmin:false,
+      isDeactived: false,
+      givenDeactive:false,
+      token:this.theToken
+    }
+    //look for the key words in the text fields.
+    if(a.value == "ADMIN"){
+      body.isAdmin = true;
+      body.givenAdmin = true;
+    } else if(a.value == "NOTADMIN"){
+      body.isAdmin = false;
+      body.givenAdmin = true;
+    }
+    if(d.value == "STOP"){
+      body.isDeactived = true;
+      body.givenDeactive = true;
+    } else if(d.value == "START"){
+      body.isDeactived = false;
+      body.givenDeactive = true;
+    }
+    // if there were no changes, cahnge the error msg line, to show that. return 
+    if(!body.givenAdmin && !body.givenDeactive) return this.errorLineShow("no change");
+    console.log(body);
+    this.http.modifyUser(body).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+  getAllUser(){
+
+    let body = {
+      token: this.theToken
+    };
+    console.log("GET ALL USERS token: ",this.theToken);
+    this.http.getallUsers(body).subscribe(
+      response =>{
+        this.allUsers = response;
+        console.log(this.allUsers);
+      },
+      error => {
+        console.log(error);
+      }
+
+    )
   }
 
 }

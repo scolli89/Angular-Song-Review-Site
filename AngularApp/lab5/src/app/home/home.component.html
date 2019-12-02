@@ -5,6 +5,9 @@
 <ng-template [ngIf]= "userAdmin == true">
         <h3 >Welcome Admin</h3>
 </ng-template>
+<ng-template [ngIf]= "userActive == true">
+                <h5 #errLine id = "Error Line">Welcome!</h5>
+</ng-template>
 
 
 <div>
@@ -17,6 +20,9 @@
         <ng-template [ngIf]= "errorMsg == 2">
                 <h5 #errLine id = "Error Line">Your account has been deactivated. Contact admin at ---@admin.com</h5>
         </ng-template>
+        <ng-template [ngIf]= "errorMsg == 9">
+                        <h5 #errLine id = "Error Line">USER ALREADY REGISTERED</h5>
+        </ng-template>
         
         <h6 #LHead id = "LHead"> USER LOGIN</h6><br>
         <h6 #RHead id = "RHead"> USER REGISTER</h6><br>
@@ -28,12 +34,20 @@
 </div>
 
 
-
-
 <ng-template [ngIf]= "userAdmin == true">
+        <ng-template [ngIf]= "errorMsg == 7">
+                <h5 #errLine id = "Error Line">No Changes Made</h5>
+        </ng-template>
+        <ng-template [ngIf]= "errorMsg == 8">
+                        <h5 #errLine id = "Error Line">Not Valid User</h5>
+                </ng-template>
         <div> 
-                <button (click) = "makeChangeSettings()">Change User Settings</button>
+                <button (click) = "makeChangeSettings()">Change User Settings</button> <br>
                 <ng-template [ngIf]= "userSettingsBool == true">
+                        <input #userBox type = email placeholder = "Insert User"> <br>
+                        <p>Type ADMIN to set to ADMIN type NOTADMIN to set to not admin  <input #adminBox type = "text" placeholder = "type ADMIN to set to admin."></p><br>
+                        <p>Type STOP to set to deactive. Type START to set to active  <input #deactBox type = "text" placeholder = "type STOP or START."></p><br>
+                        <button (click) = "ChangeUserSettings(userBox,adminBox,deactBox)">Change settings</button>
                         <h1>Hiyas</h1>
                 </ng-template>
         </div>
